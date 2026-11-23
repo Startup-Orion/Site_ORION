@@ -1,0 +1,72 @@
+name: Feature
+description: Uma funcionalidade nova ou melhoria no site ou no admin.
+title: "[Feature]: "
+labels: ["enhancement"]
+# Para adicionar a issue ao Project automaticamente, descomente e troque o número
+# (o número aparece na URL do Project: github.com/orgs/Startup-ORION/projects/<número>).
+# projects: ["Startup-ORION/1"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Descreva a funcionalidade do ponto de vista de quem vai usar.
+        Depois de criar, preencha os campos no Project (Prioridade, Área, Estimativa, Sprint).
+
+  - type: textarea
+    id: problema
+    attributes:
+      label: Qual é o problema ou a necessidade?
+      description: O que falta hoje? Quem sente falta disso?
+      placeholder: "Ex.: Visitantes não conseguem ver os projetos que a ORION já fez."
+    validations:
+      required: true
+
+  - type: textarea
+    id: solucao
+    attributes:
+      label: Solução proposta
+      description: Como você imagina que deveria funcionar?
+      placeholder: "Ex.: Uma página /portfolio com cards de projetos, gerenciados pelo admin."
+    validations:
+      required: true
+
+  - type: textarea
+    id: criterios
+    attributes:
+      label: Critérios de aceite
+      description: Como saberemos que está pronto? Uma linha por critério.
+      value: |
+        - [ ]
+        - [ ]
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Área
+      options:
+        - Site público
+        - Admin
+        - Dados
+        - Design
+        - Infra
+    validations:
+      required: true
+
+  - type: dropdown
+    id: prioridade
+    attributes:
+      label: Prioridade sugerida
+      options:
+        - Alta
+        - Média
+        - Baixa
+    validations:
+      required: true
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: Referências e observações
+      description: Links, protótipos do Figma, imagens. Opcional.

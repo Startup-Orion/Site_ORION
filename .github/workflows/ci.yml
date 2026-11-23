@@ -1,0 +1,66 @@
+name: CI
+
+# Roda em todo PR para dev/main e em todo push (merge) em dev/main.
+on:
+  pull_request:
+    branches: [dev, main]
+  push:
+    branches: [dev, main]
+
+# O workflow só precisa ler o código.
+permissions:
+  contents: read
+
+# Se chegar um push novo no mesmo PR/branch, cancela a execução anterior.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    # O nome precisa ser exatamente "ci": é o check obrigatório no ruleset.
+    name: ci
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Baixar o código
+        uses: actions/checkout@v4
+
+      # Enquanto o app não existe (etapa 1), os passos abaixo são pulados
+      # e o job passa. Quando o package.json for criado, eles rodam sozinhos.
+      - name: Aviso — app ainda não criado
+        if: hashFiles('package.json') == ''
+        run: echo "package.json não encontrado. Pulando install, lint, testes e build."
+
+      # Usa a versão do pnpm definida no campo "packageManager" do package.json.
+      - name: Instalar pnpm
+        if: hashFiles('package.json') != ''
+        uses: pnpm/action-setup@v4
+
+      - name: Instalar Node 22
+        if: hashFiles('package.json') != ''
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Instalar dependências
+        if: hashFiles('package.json') != ''
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        if: hashFiles('package.json') != ''
+        run: pnpm lint
+
+      - name: Checagem de tipos
+        if: hashFiles('package.json') != ''
+        run: pnpm run --if-present typecheck
+
+      - name: Testes
+        if: hashFiles('package.json') != ''
+        run: pnpm test
+
+      - name: Build
+        if: hashFiles('package.json') != ''
+        run: pnpm build

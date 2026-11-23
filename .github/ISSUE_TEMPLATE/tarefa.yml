@@ -1,0 +1,49 @@
+name: Tarefa
+description: Trabalho técnico, documentação, configuração ou manutenção.
+title: "[Tarefa]: "
+# Para adicionar a issue ao Project automaticamente, descomente e troque o número.
+# projects: ["Startup-ORION/1"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use para tarefas que não são uma funcionalidade nova nem um bug.
+        Ex.: configurar o CI, atualizar dependências, escrever documentação, refatorar.
+
+  - type: textarea
+    id: descricao
+    attributes:
+      label: O que precisa ser feito?
+      placeholder: "Ex.: Documentar como rodar o projeto localmente no README."
+    validations:
+      required: true
+
+  - type: textarea
+    id: checklist
+    attributes:
+      label: Checklist
+      description: Divida a tarefa em passos pequenos.
+      value: |
+        - [ ]
+        - [ ]
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Área
+      options:
+        - Site público
+        - Admin
+        - Dados
+        - Design
+        - Infra
+    validations:
+      required: true
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: Observações
+      description: Links e contexto. Opcional.

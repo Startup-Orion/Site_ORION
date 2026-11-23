@@ -1,0 +1,39 @@
+# CODEOWNERS — quem é responsável por revisar cada parte do código
+#
+# Ainda NÃO definimos os responsáveis. Este arquivo está só com comentários
+# e, por isso, não tem nenhum efeito por enquanto.
+#
+# Como funciona:
+# - Cada linha tem um caminho (padrão parecido com o .gitignore) e um ou mais
+#   usuários ou times do GitHub.
+# - Quando um PR altera arquivos daquele caminho, o GitHub pede revisão
+#   automaticamente a essas pessoas.
+# - Se várias linhas combinam com o mesmo arquivo, vale a ÚLTIMA. Por isso,
+#   coloque as regras gerais no topo e as específicas embaixo.
+# - Use @usuario para pessoas ou @Startup-ORION/nome-do-time para times.
+#   A pessoa/time precisa ter acesso de escrita ao repositório.
+#
+# Para ativar, apague o "#" do início das linhas que quiser usar e troque os nomes.
+# Exemplos:
+#
+# Responsável padrão por tudo:
+# *                              @Startup-ORION/site
+#
+# Documentação:
+# /docs/                         @usuario-docs
+# *.md                           @usuario-docs
+#
+# CI, templates e configurações do GitHub:
+# /.github/                      @usuario-infra
+#
+# Banco de dados (Prisma):
+# /prisma/                       @usuario-dados
+#
+# Uma feature específica:
+# /src/features/portfolio/       @usuario-a @usuario-b
+#
+# Código compartilhado (mudanças afetam todo mundo):
+# /src/shared/                   @usuario-infra
+#
+# Obs.: se um dia ativarmos "Require review from Code Owners" no ruleset,
+# a aprovação precisará vir de uma das pessoas listadas aqui.

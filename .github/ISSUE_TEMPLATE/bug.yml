@@ -1,0 +1,86 @@
+name: Bug
+description: Algo não está funcionando como deveria.
+title: "[Bug]: "
+labels: ["bug"]
+# Para adicionar a issue ao Project automaticamente, descomente e troque o número.
+# projects: ["Startup-ORION/1"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Obrigado por avisar! Quanto mais detalhes, mais rápido conseguimos corrigir.
+        Se o erro está no site publicado e é urgente, marque prioridade **Alta** (pode virar hotfix).
+
+  - type: textarea
+    id: aconteceu
+    attributes:
+      label: O que aconteceu?
+      placeholder: "Ex.: Ao clicar em 'Enviar' no formulário de contato, aparece uma tela branca."
+    validations:
+      required: true
+
+  - type: textarea
+    id: esperado
+    attributes:
+      label: O que era esperado?
+      placeholder: "Ex.: Aparecer a mensagem 'Mensagem enviada com sucesso'."
+    validations:
+      required: true
+
+  - type: textarea
+    id: passos
+    attributes:
+      label: Passos para reproduzir
+      value: |
+        1. Acesse ...
+        2. Clique em ...
+        3. Veja o erro
+    validations:
+      required: true
+
+  - type: dropdown
+    id: onde
+    attributes:
+      label: Onde aconteceu?
+      options:
+        - Site publicado (main)
+        - Ambiente de testes (dev)
+        - Na minha máquina
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Área
+      options:
+        - Site público
+        - Admin
+        - Dados
+        - Design
+        - Infra
+    validations:
+      required: true
+
+  - type: dropdown
+    id: prioridade
+    attributes:
+      label: Prioridade sugerida
+      options:
+        - Alta
+        - Média
+        - Baixa
+    validations:
+      required: true
+
+  - type: input
+    id: ambiente
+    attributes:
+      label: Navegador e dispositivo
+      placeholder: "Ex.: Chrome no Android, Safari no iPhone, Firefox no Windows"
+
+  - type: textarea
+    id: prints
+    attributes:
+      label: Prints ou mensagens de erro
+      description: Arraste imagens aqui ou cole a mensagem de erro.

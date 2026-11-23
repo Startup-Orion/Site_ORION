@@ -1,0 +1,90 @@
+name: Branch policy
+
+# Confere se o PR respeita o fluxo Git da equipe (ver CONTRIBUTING.md).
+# "edited" faz o check rodar de novo quando o título do PR é alterado.
+on:
+  pull_request:
+    branches: [dev, main]
+    types: [opened, edited, synchronize, reopened]
+
+permissions:
+  contents: read
+
+jobs:
+  branch-policy:
+    # O nome precisa ser exatamente "branch-policy": é o check obrigatório no ruleset.
+    name: branch-policy
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Validar branch de origem e título do PR
+        # SEGURANÇA: nomes de branch e título vêm do usuário. Eles entram SÓ por
+        # variáveis de ambiente e nunca são interpolados com ${{ }} dentro do "run",
+        # para evitar injeção de comandos.
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+          BASE_REF: ${{ github.base_ref }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          # Prefixos permitidos para branches de trabalho (saem de dev, voltam para dev).
+          # Formato: tipo/<nº-issue>-descricao-curta, em minúsculas. Ex.: feature/12-secao-portfolio
+          regex_branch='^(feature|fix|docs|chore|refactor|test)/[0-9]+-[a-z0-9]+(-[a-z0-9]+)*$'
+
+          # Conventional Commits: tipo(escopo opcional)!opcional: descrição
+          regex_titulo='^(feat|fix|docs|chore|refactor|test|style|perf|ci|build)(\([a-z0-9._/-]+\))?!?: .+'
+
+          erros=0
+          falha() {
+            echo "::error::$1"
+            erros=$((erros + 1))
+          }
+
+          printf 'Origem (head): %s\n' "$HEAD_REF"
+          printf 'Destino (base): %s\n' "$BASE_REF"
+          printf 'Título: %s\n' "$PR_TITLE"
+
+          case "$BASE_REF" in
+            main)
+              # main só recebe release (dev) ou hotfix/*.
+              if [[ "$HEAD_REF" == "dev" || "$HEAD_REF" =~ ^hotfix/.+ ]]; then
+                echo "OK: origem permitida para main."
+              else
+                falha "PR para main só pode vir de 'dev' (release) ou de 'hotfix/*'. Veja CONTRIBUTING.md."
+              fi
+              ;;
+
+            dev)
+              if [[ "$HEAD_REF" == "main" ]]; then
+                # Sincronização de hotfix (main -> dev). Título não é checado,
+                # pois este PR entra por merge commit, não por squash.
+                echo "OK: sincronização de main em dev."
+              else
+                if [[ "$HEAD_REF" =~ $regex_branch ]]; then
+                  echo "OK: nome da branch no padrão."
+                else
+                  falha "Nome da branch fora do padrão. Use tipo/<nº-issue>-descricao (tipos: feature, fix, docs, chore, refactor, test), em minúsculas. Ex.: feature/12-secao-portfolio"
+                fi
+
+                if [[ "$PR_TITLE" =~ $regex_titulo ]]; then
+                  echo "OK: título no padrão Conventional Commits."
+                else
+                  falha "Título do PR fora do padrão Conventional Commits. Ex.: 'feat(portfolio): adiciona listagem de projetos'. Tipos: feat, fix, docs, chore, refactor, test, style, perf, ci, build."
+                fi
+              fi
+              ;;
+
+            *)
+              echo "Destino não monitorado. Nada a validar."
+              ;;
+          esac
+
+          if [[ "$erros" -gt 0 ]]; then
+            echo "Encontrados $erros problema(s). Corrija e o check roda de novo."
+            exit 1
+          fi
+
+          echo "Tudo certo!"
