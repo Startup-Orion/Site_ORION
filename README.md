@@ -1,16 +1,34 @@
 # Site Institucional da ORION
 
 Site público da ORION e painel administrativo (`/admin`) para a equipe gerenciar o
-conteúdo (portfólio, textos, imagens etc.), tudo em **um único app**.
+conteúdo (portfólio, textos, imagens etc.).
 
-> **Status:** etapa 1 — estrutura de colaboração (documentação, templates e CI).
-> O app Next.js será criado na etapa 2.
+O repositório é um **monorepo pnpm** com duas pastas:
+
+```
+Site_ORION/
+├── frontend/   ← Next.js: site público e painel /admin (porta 3000)
+│   └── src/
+│       ├── app/        ← rotas (páginas)
+│       ├── features/   ← uma pasta por assunto do negócio
+│       └── shared/     ← código comum (ex.: api/client.ts fala com o backend)
+├── backend/    ← API Node + Express: regras de negócio e banco (porta 3333)
+│   ├── prisma/         ← schema do banco e migrações
+│   └── src/
+│       ├── features/   ← uma pasta por assunto (routes, service, repository, schema, testes)
+│       └── shared/     ← config, cliente do Prisma, tratamento de erros
+├── docs/
+└── package.json + pnpm-workspace.yaml
+```
+
+> **Status:** etapa 2 — estrutura inicial do frontend e do backend criada.
 
 ## Stack
 
 | Parte                | Tecnologia                                   |
 | -------------------- | -------------------------------------------- |
-| App (site + admin)   | Next.js + TypeScript                         |
+| Frontend (site + admin) | Next.js + TypeScript                      |
+| Backend (API)        | Node + Express + TypeScript                  |
 | Banco, login, upload | Supabase (Postgres, Auth, Storage)           |
 | Acesso ao banco      | Prisma                                       |
 | Validação            | Zod                                          |
@@ -44,7 +62,19 @@ Branches principais:
 
 ## Rodando localmente
 
-Instruções serão adicionadas na etapa 2, quando o app for criado. Você vai precisar de:
+Você vai precisar de:
 
 - Node 22 (o arquivo `.nvmrc` já indica a versão; com nvm, rode `nvm use`)
-- pnpm
+- pnpm (`corepack enable` ou `npm i -g pnpm`)
+
+```bash
+pnpm install                              # instala frontend e backend
+cp backend/.env.example backend/.env      # preencha DATABASE_URL do Supabase
+cp frontend/.env.example frontend/.env.local
+pnpm dev                                  # sobe os dois juntos
+```
+
+- Frontend: http://localhost:3000
+- API: http://localhost:3333/api/health
+
+Outros comandos: `pnpm dev:frontend`, `pnpm dev:backend`, `pnpm test`, `pnpm build`.
