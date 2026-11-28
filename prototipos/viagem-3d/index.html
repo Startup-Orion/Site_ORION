@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ORION — Viagem pela constelação (prova de conceito)</title>
+    <meta name="theme-color" content="#070b15" />
+    <script>
+      try {
+        if (location.search.indexOf("repetir") > -1) sessionStorage.removeItem("orion-abertura-vista");
+        if (sessionStorage.getItem("orion-abertura-vista") !== "1")
+          document.documentElement.classList.add("orion-abertura-pendente");
+      } catch (e) {}
+      document.documentElement.classList.add("travado");
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=Space+Grotesk:wght@500;600&display=swap"
+    />
+    <link rel="stylesheet" href="../abertura-orion/abertura-orion.css" />
+    <link rel="stylesheet" href="viagem.css" />
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <!-- Cena 3D (fica atrás de tudo) -->
+    <canvas id="cena" aria-hidden="true"></canvas>
+
+    <header class="topo">
+      <span class="selo-poc">Prova de conceito</span>
+      <a class="link-site" href="../site-orion/">Ver o site atual</a>
+    </header>
+
+    <main class="viagem">
+      <!-- Cada etapa dá "comprimento" à rolagem; o conteúdo visível fica nas camadas fixas abaixo. -->
+      <section class="etapa etapa--hero" id="inicio">
+        <h1 class="titulo-nitido" id="titulo-a">Transformamos ideias<br />em soluções que<br />fazem a diferença.</h1>
+      </section>
+      <div class="etapa etapa--salto" aria-hidden="true"></div>
+      <section class="etapa etapa--sobre" id="sobre">
+        <h2 class="titulo-nitido" id="titulo-b">Mais do que tecnologia.<br />Ideias que ganham vida.</h2>
+      </section>
+      <section class="etapa etapa--fim" id="fim">
+        <div class="fim">
+          <p>Fim da prova de conceito. A viagem continuaria por serviços em órbita, portfólio no espaço e trajetória como túnel no tempo.</p>
+          <a class="botao botao--fantasma" href="#inicio">Voltar ao início da viagem</a>
+        </div>
+      </section>
+    </main>
+
+    <!-- Camadas fixas que aparecem conforme a viagem -->
+    <div class="camada camada--hero" id="camada-hero">
+      <p class="hero__resumo">
+        Da criação de experiências digitais ao desenvolvimento de tecnologias inovadoras, conectamos criatividade,
+        engenharia e inovação para transformar desafios em oportunidades.
+      </p>
+      <div class="hero__acoes">
+        <a class="botao botao--primario" href="https://wa.me/5592991339221?text=Ol%C3%A1%2C%20ORION!%20Vim%20pelo%20site%20e%20tenho%20uma%20ideia%20para%20conversar." target="_blank" rel="noopener">Conversar sobre minha ideia</a>
+        <a class="botao botao--fantasma" href="#sobre" id="comecar">Começar a viagem</a>
+      </div>
+    </div>
+
+    <div class="camada camada--sobre" id="camada-sobre" inert>
+      <div class="vidro">
+        <p>
+          A ORION nasceu da vontade de transformar conhecimento, criatividade e engenharia em soluções reais. Uma
+          iniciativa de desenvolvimento tecnológico que evoluiu para uma startup multidisciplinar.
+        </p>
+        <ul class="pilares">
+          <li><strong>Tecnologia</strong><span>Conhecimento aplicado a soluções práticas.</span></li>
+          <li><strong>Inovação</strong><span>Novos caminhos para desafios reais.</span></li>
+          <li><strong>Impacto</strong><span>Valor para pessoas, negócios e sociedade.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="dica-rolar" id="dica-rolar" aria-hidden="true">
+      <span>Role para viajar</span>
+      <i></i>
+    </div>
+
+    <p class="sem-3d" id="sem-3d" hidden>
+      Seu navegador não suporta a cena 3D. Abrindo o site normal...
+    </p>
+
+    <script src="../abertura-orion/abertura-orion.js"></script>
+    <script type="module" src="viagem.js"></script>
+  </body>
+</html>
