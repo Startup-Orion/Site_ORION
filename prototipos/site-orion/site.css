@@ -692,8 +692,6 @@ button.astro[aria-expanded="true"] .astro__rotulo {
 .projeto__cartao {
   --rx: 0deg;
   --ry: 0deg;
-  --gx: 50%;
-  --gy: 50%;
   position: relative;
   display: grid;
   grid-template-columns: minmax(240px, 340px) minmax(0, 1fr);
@@ -850,19 +848,6 @@ button.astro[aria-expanded="true"] .astro__rotulo {
   font-size: 13px;
   color: var(--suave);
 }
-.projeto__brilho {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  background: radial-gradient(500px circle at var(--gx) var(--gy), rgba(55, 181, 255, 0.12), transparent 45%);
-  opacity: 0;
-  transition: opacity 300ms;
-}
-.projeto__cartao.ativo .projeto__brilho {
-  opacity: 1;
-}
-
 /* Trajetória desenhada pela rolagem */
 .linha-tempo {
   position: relative;

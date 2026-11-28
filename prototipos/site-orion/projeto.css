@@ -59,32 +59,32 @@
   border: 1px solid var(--linha);
   box-shadow: 0 40px 90px -40px rgba(55, 181, 255, 0.35);
 }
-.detalhe__completo {
+.detalhe__som {
   position: absolute;
-  left: 12px;
-  bottom: 12px;
-  right: 64px;
+  top: 14px;
+  left: 50%;
+  translate: -50% 0;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
   gap: 8px;
-  padding: 10px 14px;
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  padding: 10px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 999px;
-  background: rgba(7, 11, 21, 0.6);
+  background: rgba(7, 11, 21, 0.65);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   color: var(--texto);
   font: 600 14px/1.2 var(--corpo);
   cursor: pointer;
+  animation: surgir 360ms var(--suave-saida);
   transition: border-color 200ms, background-color 200ms;
 }
-.detalhe__completo:hover {
+.detalhe__som:hover,
+.detalhe__som:focus-visible {
   border-color: var(--azul);
-  background: rgba(7, 11, 21, 0.8);
+  background: rgba(7, 11, 21, 0.85);
 }
-.detalhe__midia.completo .detalhe__completo,
-.detalhe__midia.completo .midia__controle {
+.detalhe__som[hidden] {
   display: none;
 }
 

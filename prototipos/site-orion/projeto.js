@@ -49,18 +49,13 @@
     '    <p class="detalhe__resumo">' + esc(p.resumo) + "</p>" +
     '    <div class="hero__acoes">' +
     '      <a class="botao botao--primario" href="' + whats + '" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-whatsapp" /></svg> Conversar sobre este projeto</a>' +
-    '      <a class="botao botao--fantasma" href="#galeria">Ver fotos</a>' +
     "    </div>" +
     "  </div>" +
-    '  <div class="detalhe__midia" data-midia style="view-transition-name: midia-' + p.slug + '">' +
-    '    <video class="detalhe__video" muted loop playsinline autoplay preload="auto" poster="video/' + p.slug + '-capa.jpg" aria-label="Vídeo: ' + esc(p.titulo) + '">' +
-    '      <source src="video/' + p.slug + '-loop.webm" type="video/webm" />' +
-    '      <source src="video/' + p.slug + '-loop.mp4" type="video/mp4" />' +
-    "    </video>" +
-    '    <button class="midia__controle" type="button" aria-label="Pausar vídeo"><span class="midia__icone" aria-hidden="true"></span></button>' +
-    '    <button class="detalhe__completo" type="button"><svg class="ico" aria-hidden="true"><use href="#i-som" /></svg> ' +
-    (p.temAudio ? "Assistir ao vídeo completo, com som" : "Assistir ao vídeo completo") +
-    "</button>" +
+    '  <div class="detalhe__midia" style="view-transition-name: midia-' + p.slug + '">' +
+    '    <video class="detalhe__video" controls playsinline preload="auto" poster="video/' + p.slug + '-capa.jpg" src="video/' + p.slug + '-completo.mp4" aria-label="Vídeo: ' + esc(p.titulo) + '"></video>' +
+    (p.temAudio
+      ? '    <button class="detalhe__som" type="button" hidden><svg class="ico" aria-hidden="true"><use href="#i-som" /></svg> Ativar som</button>'
+      : "") +
     "  </div>" +
     "</section>" +
     '<section class="detalhe__historia">' +
@@ -106,21 +101,31 @@
     "</section>";
   document.getElementById("conteudo").innerHTML = html;
 
-  // ---------- Vídeo completo ----------
-  var caixa = document.querySelector(".detalhe__midia");
-  var video = caixa.querySelector("video");
-  caixa.querySelector(".detalhe__completo").addEventListener("click", function () {
-    caixa.dataset.completo = "1";
-    caixa.classList.add("completo");
-    video.pause();
-    while (video.firstChild) video.removeChild(video.firstChild);
-    video.src = "video/" + p.slug + "-completo.mp4";
-    video.loop = false;
-    video.muted = false;
-    video.controls = true;
-    video.play().catch(function () {});
-    video.focus();
-  });
+  // ---------- Vídeo completo, com som ----------
+  // Tenta tocar com som (o navegador costuma permitir porque a pessoa acabou de clicar no site).
+  // Se bloquear, toca mudo e mostra "Ativar som". Quem pediu menos movimento dá o play.
+  var video = document.querySelector(".detalhe__video");
+  var botaoSom = document.querySelector(".detalhe__som");
+  var reduzido = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function mostrarBotaoSom() {
+    if (botaoSom) botaoSom.hidden = !video.muted || video.paused;
+  }
+  video.addEventListener("volumechange", mostrarBotaoSom);
+  video.addEventListener("play", mostrarBotaoSom);
+  if (botaoSom) {
+    botaoSom.addEventListener("click", function () {
+      video.muted = false;
+      video.volume = 1;
+      if (video.paused) video.play();
+    });
+  }
+  if (!reduzido) {
+    video.muted = !p.temAudio;
+    video.play().catch(function () {
+      video.muted = true;
+      video.play().catch(function () {});
+    });
+  }
 
   // ---------- Galeria em tela cheia ----------
   var dialogo = document.getElementById("lightbox");

@@ -384,8 +384,6 @@
         c.classList.add("ativo");
         c.style.setProperty("--ry", ((px - 0.5) * 8).toFixed(2) + "deg");
         c.style.setProperty("--rx", ((0.5 - py) * 6).toFixed(2) + "deg");
-        c.style.setProperty("--gx", (px * 100).toFixed(1) + "%");
-        c.style.setProperty("--gy", (py * 100).toFixed(1) + "%");
       });
       c.addEventListener("pointerleave", function () {
         c.classList.remove("ativo");
