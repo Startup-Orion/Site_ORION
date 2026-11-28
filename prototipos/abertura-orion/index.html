@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ORION — Abertura (protótipo)</title>
+    <!-- Mostra o fundo da abertura antes de qualquer conteúdo, evitando "piscar" o site. -->
+    <script>
+      try {
+        if (location.search.indexOf("repetir") > -1) sessionStorage.removeItem("orion-abertura-vista");
+        if (sessionStorage.getItem("orion-abertura-vista") !== "1")
+          document.documentElement.classList.add("orion-abertura-pendente");
+      } catch (e) {}
+    </script>
+    <link rel="preload" href="orion-logo.png" as="image" />
+    <link rel="stylesheet" href="abertura-orion.css" />
+    <style>
+      /* Apenas para a demonstração: simula a página que fica por baixo. */
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        background: #070b15;
+        color: #f3f6fc;
+        font: 16px/1.5 "DM Sans", system-ui, sans-serif;
+      }
+      .demo {
+        text-align: center;
+        max-width: 36rem;
+        padding: 24px;
+      }
+      .demo img {
+        width: 120px;
+        height: auto;
+      }
+      .demo p {
+        color: #98a6ba;
+      }
+      .demo a {
+        color: #37b5ff;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="demo">
+      <img src="orion-logo.png" alt="ORION" />
+      <h1>Página do site</h1>
+      <p>Aqui entra o site. A abertura aparece uma vez por sessão.</p>
+      <p>
+        <a href="?repetir">Ver a abertura de novo</a> ·
+        <a href="?repetir&amp;reduzido">Ver com movimento reduzido</a>
+      </p>
+    </main>
+    <script src="abertura-orion.js"></script>
+    <script>
+      AberturaOrion.iniciar({
+        logo: "orion-logo.png",
+        movimentoReduzido: location.search.indexOf("reduzido") > -1 ? true : undefined,
+        congelarEm: /quadro=(\d+)/.test(location.search) ? Number(RegExp.$1) : undefined,
+      });
+    </script>
+  </body>
+</html>

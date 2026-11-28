@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ORION — Tecnologia, Inovação e Impacto</title>
+    <meta name="description" content="Startup de Manaus que transforma ideias em soluções: sites, sistemas, identidade visual, suporte tecnológico e projetos de inovação." />
+    <meta name="theme-color" content="#070b15" />
+    <script>
+      try {
+        if (location.search.indexOf("repetir") > -1) sessionStorage.removeItem("orion-abertura-vista");
+        if (sessionStorage.getItem("orion-abertura-vista") !== "1")
+          document.documentElement.classList.add("orion-abertura-pendente", "com-abertura");
+      } catch (e) {}
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=Space+Grotesk:wght@500;600&display=swap"
+    />
+    <link rel="preload" href="../abertura-orion/orion-logo.png" as="image" />
+    <link rel="stylesheet" href="../abertura-orion/abertura-orion.css" />
+    <link rel="stylesheet" href="site.css" />
+  </head>
+  <body>
+    <a class="pular-conteudo" href="#conteudo">Pular para o conteúdo</a>
+
+    <!-- Ícones reutilizáveis: traço de constelação (linhas + nós). -->
+    <svg width="0" height="0" class="sr" aria-hidden="true">
+      <defs>
+        <symbol id="i-sites" viewBox="0 0 48 48">
+          <path class="t" d="M6 11h36v26H6zM6 18h36" />
+          <path class="t" d="M19 24l-4 4 4 4M29 24l4 4-4 4M25.5 23l-3 10" />
+          <circle class="n" cx="6" cy="11" r="1.6" /><circle class="n" cx="42" cy="37" r="1.6" />
+        </symbol>
+        <symbol id="i-marca" viewBox="0 0 48 48">
+          <path class="t" d="M24 6l12 14-12 22L12 20z" />
+          <path class="t" d="M12 20h24M24 6v36" />
+          <circle class="n" cx="24" cy="6" r="1.6" /><circle class="n" cx="12" cy="20" r="1.6" /><circle class="n" cx="36" cy="20" r="1.6" />
+        </symbol>
+        <symbol id="i-suporte" viewBox="0 0 48 48">
+          <path class="t" d="M8 9h32v22H8zM18 39h12M24 31v8" />
+          <path class="t" d="M17 23l5-5 4 4 6-7" />
+          <circle class="n" cx="17" cy="23" r="1.6" /><circle class="n" cx="22" cy="18" r="1.6" /><circle class="n" cx="26" cy="22" r="1.6" /><circle class="n" cx="32" cy="15" r="1.6" />
+        </symbol>
+        <symbol id="i-inovacao" viewBox="0 0 48 48">
+          <path class="t" d="M10 34L20 22l9 6 9-16M20 22l-4-12M29 28l7 10" />
+          <circle class="n" cx="10" cy="34" r="1.8" /><circle class="n" cx="20" cy="22" r="1.8" /><circle class="n" cx="29" cy="28" r="1.8" /><circle class="n" cx="38" cy="12" r="1.8" /><circle class="n" cx="16" cy="10" r="1.4" /><circle class="n" cx="36" cy="38" r="1.4" />
+        </symbol>
+        <symbol id="i-tecnologia" viewBox="0 0 48 48">
+          <path class="t" d="M14 14h20v20H14zM19 8v6M29 8v6M19 34v6M29 34v6M8 19h6M8 29h6M34 19h6M34 29h6" />
+          <path class="t" d="M20 24h8" />
+          <circle class="n" cx="20" cy="24" r="1.6" /><circle class="n" cx="28" cy="24" r="1.6" />
+        </symbol>
+        <symbol id="i-ideia" viewBox="0 0 48 48">
+          <path class="t" d="M24 4v8M24 36v8M4 24h8M36 24h8M24 16l3 8-3 8-3-8z" />
+          <path class="t" d="M11 11l5 5M37 11l-5 5M11 37l5-5M37 37l-5-5" />
+          <circle class="n" cx="24" cy="24" r="2" />
+        </symbol>
+        <symbol id="i-impacto" viewBox="0 0 48 48">
+          <path class="t" d="M24 18a6 6 0 1 1 0 12a6 6 0 1 1 0-12M24 10a14 14 0 1 1 0 28a14 14 0 1 1 0-28M24 3a21 21 0 1 1 0 42a21 21 0 1 1 0-42" />
+          <circle class="n" cx="24" cy="24" r="2" />
+        </symbol>
+        <symbol id="i-whatsapp" viewBox="0 0 48 48">
+          <path class="t" d="M24 6a18 18 0 0 0-15.6 27L6 42l9.3-2.4A18 18 0 1 0 24 6z" />
+          <path class="t" d="M17.5 15.5c-1 1-1.5 2.5-1 4.3 1.2 4.4 6.6 9.8 11 11 1.8.5 3.3 0 4.3-1l.7-1.8-4-2-1.9 1.6c-2.4-1-4.7-3.3-5.7-5.7l1.6-1.9-2-4z" />
+        </symbol>
+        <symbol id="i-instagram" viewBox="0 0 48 48">
+          <path class="t" d="M15 6h18a9 9 0 0 1 9 9v18a9 9 0 0 1-9 9H15a9 9 0 0 1-9-9V15a9 9 0 0 1 9-9z" />
+          <path class="t" d="M24 16a8 8 0 1 1 0 16a8 8 0 1 1 0-16" />
+          <circle class="n" cx="34.5" cy="13.5" r="1.8" />
+        </symbol>
+        <symbol id="i-startupbase" viewBox="0 0 48 48">
+          <path class="t" d="M24 4c7 5 10 13 8 24l-8 6-8-6c-2-11 1-19 8-24z" />
+          <path class="t" d="M16 28l-6 6 2 6 6-4M32 28l6 6-2 6-6-4M21 38l3 6 3-6" />
+          <circle class="n" cx="24" cy="18" r="3" />
+        </symbol>
+        <symbol id="i-seta" viewBox="0 0 24 24">
+          <path class="t" d="M7 17L17 7M9 7h8v8" />
+        </symbol>
+      </defs>
+    </svg>
+
+    <header class="topo" id="topo">
+      <div class="topo__dentro">
+        <a class="marca" href="#inicio" aria-label="ORION, voltar ao início">
+          <svg class="marca__simbolo" id="logo-topo" viewBox="238 192 308 292" aria-hidden="true">
+            <image href="../abertura-orion/orion-logo.png" width="856" height="900" />
+          </svg>
+          <span class="marca__nome">ORION</span>
+        </a>
+        <nav class="menu" id="menu" aria-label="Seções do site">
+          <a href="#sobre">Sobre</a>
+          <a href="#servicos">Serviços</a>
+          <a href="#projetos">Portfólio</a>
+          <a href="#trajetoria">Trajetória</a>
+          <a href="#equipe">Equipe</a>
+          <a href="#contato">Contato</a>
+        </nav>
+        <a class="botao botao--whats topo__whats" data-whats="geral" href="#" target="_blank" rel="noopener">
+          <svg class="ico" aria-hidden="true"><use href="#i-whatsapp" /></svg>
+          <span>WhatsApp</span>
+        </a>
+        <button class="menu-botao" type="button" aria-expanded="false" aria-controls="menu">
+          <span></span><span></span><span class="sr">Abrir menu</span>
+        </button>
+      </div>
+    </header>
+
+    <main id="conteudo">
+      <!-- HERO: cinturão de Órion interativo -->
+      <section class="hero" id="inicio" data-contexto="inicio">
+        <div class="hero__texto">
+          <p class="hero__local">De Manaus, para novas possibilidades</p>
+          <h1 class="hero__titulo">
+            <span class="linha"><span>Transformamos ideias</span></span>
+            <span class="linha"><span>em soluções que</span></span>
+            <span class="linha"><span>fazem a diferença.</span></span>
+          </h1>
+          <p class="hero__resumo">
+            Da criação de experiências digitais ao desenvolvimento de tecnologias inovadoras, conectamos criatividade,
+            engenharia e inovação para transformar desafios em oportunidades.
+          </p>
+          <div class="hero__acoes">
+            <a class="botao botao--primario" data-whats="inicio" href="#" target="_blank" rel="noopener">
+              <svg class="ico" aria-hidden="true"><use href="#i-whatsapp" /></svg>
+              Conversar sobre minha ideia
+            </a>
+            <a class="botao botao--fantasma" href="#projetos">Ver o portfólio</a>
+          </div>
+        </div>
+
+        <div class="cinturao" id="cinturao">
+          <svg class="cinturao__svg" viewBox="0 0 600 640" aria-hidden="true">
+            <g class="cinturao__linhas"></g>
+          </svg>
+          <div class="cinturao__estrelas"></div>
+          <p class="cinturao__dica" id="cinturao-dica">Toque numa estrela do cinturão para ver o serviço</p>
+          <div class="cinturao__cartao" id="cinturao-cartao" role="dialog" aria-modal="false" aria-labelledby="cc-titulo" hidden>
+            <button class="cinturao__fechar" type="button" aria-label="Fechar">×</button>
+            <p class="cinturao__estrela" id="cc-estrela"></p>
+            <h2 id="cc-titulo"></h2>
+            <p id="cc-texto"></p>
+            <div class="cinturao__acoes">
+              <a class="botao botao--primario botao--pequeno" id="cc-whats" href="#" target="_blank" rel="noopener">
+                <svg class="ico" aria-hidden="true"><use href="#i-whatsapp" /></svg> Conversar
+              </a>
+              <a class="botao botao--fantasma botao--pequeno" id="cc-ver" href="#servicos">Ver detalhes</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SOBRE -->
+      <section class="secao sobre" id="sobre" data-contexto="sobre">
+        <div class="secao__cab">
+          <h2 class="secao__titulo">Mais do que tecnologia. Ideias que ganham vida.</h2>
+          <div class="secao__texto">
+            <p>
+              A ORION nasceu da vontade de transformar conhecimento, criatividade e engenharia em soluções reais. Uma
+              iniciativa de desenvolvimento tecnológico que evoluiu para uma startup multidisciplinar.
+            </p>
+            <p>
+              Hoje, unimos soluções digitais, serviços tecnológicos e pesquisa aplicada para aproximar a inovação das
+              necessidades de pessoas, empresas e organizações.
+            </p>
+          </div>
+        </div>
+        <ul class="pilares">
+          <li class="pilar desenhavel">
+            <svg class="ico-grande" aria-hidden="true"><use href="#i-tecnologia" /></svg>
+            <h3>Tecnologia</h3>
+            <p>Conhecimento aplicado a soluções práticas.</p>
+          </li>
+          <li class="pilar desenhavel">
+            <svg class="ico-grande" aria-hidden="true"><use href="#i-ideia" /></svg>
+            <h3>Inovação</h3>
+            <p>Novos caminhos para desafios reais.</p>
+          </li>
+          <li class="pilar desenhavel">
+            <svg class="ico-grande" aria-hidden="true"><use href="#i-impacto" /></svg>
+            <h3>Impacto</h3>
+            <p>Valor para pessoas, negócios e sociedade.</p>
+          </li>
+        </ul>
+      </section>
+
+      <!-- SERVIÇOS -->
+      <section class="secao servicos" id="servicos" data-contexto="servicos">
+        <div class="secao__cab">
+          <h2 class="secao__titulo">Seu desafio. Nossa próxima solução.</h2>
+          <p class="secao__texto">Do primeiro esboço à solução em uso. Encontre o ponto de partida para sua ideia.</p>
+        </div>
+        <div class="servicos__grade">
+          <article class="servico desenhavel" id="servico-sites" data-contexto="servico-sites">
+            <svg class="ico-grande" aria-hidden="true"><use href="#i-sites" /></svg>
+            <h3>Tire sua ideia do papel</h3>
+            <p class="servico__sub">Sites, sistemas e soluções digitais.</p>
+            <p>Um site que apresenta sua empresa. Um sistema que simplifica sua rotina. Criamos ferramentas modernas para o seu negócio ir além.</p>
+            <ul><li>Sites institucionais e comerciais</li><li>Sistemas personalizados</li><li>Produtos SaaS</li><li>Melhoria de processos</li></ul>
+            <a class="servico__cta" data-whats="servico-sites" href="#" target="_blank" rel="noopener">Quero desenvolver uma solução <svg class="ico" aria-hidden="true"><use href="#i-seta" /></svg></a>
+          </article>
+          <article class="servico desenhavel" id="servico-marca" data-contexto="servico-marca">
+            <svg class="ico-grande" aria-hidden="true"><use href="#i-marca" /></svg>
+            <h3>Dê uma cara à sua marca</h3>
+            <p class="servico__sub">Identidade visual, artes e materiais digitais.</p>
+            <p>Traduzimos a essência da sua marca em uma presença visual consistente, para comunicar melhor e se destacar.</p>
+            <ul><li>Identidade visual e logotipos</li><li>Artes para redes sociais</li><li>Materiais de divulgação</li><li>Design digital</li></ul>
+            <a class="servico__cta" data-whats="servico-marca" href="#" target="_blank" rel="noopener">Quero fortalecer minha marca <svg class="ico" aria-hidden="true"><use href="#i-seta" /></svg></a>
+          </article>
+          <article class="servico desenhavel" id="servico-suporte" data-contexto="servico-suporte">
+            <svg class="ico-grande" aria-hidden="true"><use href="#i-suporte" /></svg>
+            <h3>Deixe seu computador em dia</h3>
+            <p class="servico__sub">Manutenção, instalação e suporte tecnológico.</p>
+            <p>Seu equipamento precisa acompanhar sua rotina. Cuidamos dos computadores e softwares para que você possa focar no que importa.</p>
+            <ul><li>Manutenção de computadores</li><li>Instalação de softwares</li><li>Formatação e otimização</li><li>Diagnóstico e suporte</li></ul>
+            <a class="servico__cta" data-whats="servico-suporte" href="#" target="_blank" rel="noopener">Preciso de suporte <svg class="ico" aria-hidden="true"><use href="#i-seta" /></svg></a>
+          </article>
+          <article class="servico desenhavel" id="servico-inovacao" data-contexto="servico-inovacao">
+            <svg class="ico-grande" aria-hidden="true"><use href="#i-inovacao" /></svg>
+            <h3>Vamos construir algo novo</h3>
+            <p class="servico__sub">Projetos personalizados, automação e inovação.</p>
+            <p>Tem um desafio tecnológico ou uma ideia inovadora? Planejamos, desenvolvemos e validamos soluções com você.</p>
+            <ul><li>Protótipos e consultoria técnica</li><li>IA e visão computacional</li><li>IoT e automação</li><li>Automação residencial (Home System)</li></ul>
+            <a class="servico__cta" data-whats="servico-inovacao" href="#" target="_blank" rel="noopener">Vamos conversar <svg class="ico" aria-hidden="true"><use href="#i-seta" /></svg></a>
+          </article>
+        </div>
+      </section>
+
+      <!-- PORTFÓLIO: cartões com profundidade -->
+      <section class="secao projetos" id="projetos" data-contexto="projetos">
+        <div class="secao__cab">
+          <h2 class="secao__titulo">Projetos, eventos e registros da nossa trajetória.</h2>
+        </div>
+        <div class="projetos__lista">
+          <article class="projeto" data-contexto="projeto-orion">
+            <div class="projeto__cartao">
+              <div class="projeto__foto"><img src="img/orion-inovatech.jpg" alt="Equipe do Projeto ORION reunida com o troféu de campeão no Inovatech 2025" loading="lazy" width="1600" height="1200" /></div>
+              <div class="projeto__corpo">
+                <p class="projeto__tipo">Projeto de acessibilidade</p>
+                <h3>Projeto ORION</h3>
+                <p class="projeto__lema">Mais autonomia. Novos caminhos.</p>
+                <p>Visão computacional e síntese de voz para identificar obstáculos e fornecer orientações auditivas a pessoas com deficiência visual.</p>
+                <p class="projeto__selo"><svg class="ico" aria-hidden="true"><use href="#i-ideia" /></svg> Campeão do Inovatech 2025</p>
+                <ul class="etiquetas"><li>Inteligência artificial</li><li>Visão computacional</li><li>Sistemas embarcados</li></ul>
+                <a class="servico__cta" data-whats="projeto-orion" href="#" target="_blank" rel="noopener">Quero saber sobre o projeto <svg class="ico" aria-hidden="true"><use href="#i-seta" /></svg></a>
+              </div>
+              <span class="projeto__brilho" aria-hidden="true"></span>
+            </div>
+          </article>
+          <article class="projeto" data-contexto="projeto-teko">
+            <div class="projeto__cartao">
+              <div class="projeto__foto"><img src="img/teko-kaa.jpg" alt="Painel do Teko Ka’a com mapa visual da planta e indicadores de saúde vegetal" loading="lazy" width="1600" height="999" /></div>
+              <div class="projeto__corpo">
+                <p class="projeto__tipo">Agricultura inteligente</p>
+                <h3>Teko Ka’a</h3>
+                <p class="projeto__lema">Inovação que cria raízes.</p>
+                <p>Uma estufa inteligente que integra sensores, informações do solo e controle automatizado para apoiar o gerenciamento de cultivos.</p>
+                <p class="projeto__selo"><svg class="ico" aria-hidden="true"><use href="#i-ideia" /></svg> 9º lugar no Inovatech 2026, entre mais de 100 projetos</p>
+                <ul class="etiquetas"><li>Internet das Coisas</li><li>Automação</li><li>Agricultura inteligente</li></ul>
+                <a class="servico__cta" data-whats="projeto-teko" href="#" target="_blank" rel="noopener">Quero saber sobre o Teko Ka’a <svg class="ico" aria-hidden="true"><use href="#i-seta" /></svg></a>
+              </div>
+              <span class="projeto__brilho" aria-hidden="true"></span>
+            </div>
+          </article>
+          <article class="projeto" data-contexto="projeto-ada">
+            <div class="projeto__cartao">
+              <div class="projeto__foto"><img src="img/ada-conecta.jpg" alt="Participantes reunidos no Ada Conecta em Manaus" loading="lazy" width="1600" height="900" /></div>
+              <div class="projeto__corpo">
+                <p class="projeto__tipo">Evento, 2ª edição</p>
+                <h3>Ada Conecta 2026</h3>
+                <p class="projeto__lema">10 de outubro de 2026, Venturus, Manaus</p>
+                <p>A ORION apresentou a startup e seus serviços no Ada Conecta, encontro da Manas Tech que dá visibilidade às mulheres na tecnologia no Amazonas. A segunda edição teve a inteligência artificial como tema central.</p>
+                <ul class="etiquetas"><li>Mulheres na tecnologia</li><li>Inteligência artificial</li></ul>
+                <a class="servico__cta" href="https://www.sympla.com.br/evento/ada-conecta-2-edicao/3536056" target="_blank" rel="noopener">Conheça o evento <svg class="ico" aria-hidden="true"><use href="#i-seta" /></svg></a>
+              </div>
+              <span class="projeto__brilho" aria-hidden="true"></span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- TRAJETÓRIA: desenhada pela rolagem -->
+      <section class="secao trajetoria" id="trajetoria" data-contexto="trajetoria">
+        <div class="secao__cab">
+          <h2 class="secao__titulo">Da primeira ideia a novos horizontes.</h2>
+        </div>
+        <div class="linha-tempo" id="linha-tempo">
+          <svg class="linha-tempo__svg" aria-hidden="true">
+            <path class="linha-tempo__base" />
+            <path class="linha-tempo__luz" pathLength="1" />
+          </svg>
+          <ol class="marcos">
+            <li class="marco"><span class="marco__estrela" aria-hidden="true"></span><p class="marco__data">2025, origem</p><h3>Tudo começa com uma ideia</h3><p>Desenvolvimento do Projeto ORION e formação da iniciativa que deu origem à startup.</p></li>
+            <li class="marco"><span class="marco__estrela" aria-hidden="true"></span><p class="marco__data">2025, Inovatech</p><h3>Uma conquista que abre caminhos</h3><p>O Projeto ORION conquista o título de campeão do Inovatech 2025.</p></li>
+            <li class="marco"><span class="marco__estrela" aria-hidden="true"></span><p class="marco__data">Janeiro de 2026, ciência</p><h3>Da pesquisa à publicação</h3><p>Artigo científico do Projeto ORION publicado na Revista FOCO.</p></li>
+            <li class="marco"><span class="marco__estrela" aria-hidden="true"></span><p class="marco__data">2026, empreendedorismo</p><h3>Conexões para ir além</h3><p>Participação em iniciativas como Centelha e Sua Ideia Vale 1 Milhão.</p></li>
+            <li class="marco"><span class="marco__estrela" aria-hidden="true"></span><p class="marco__data">2026, Teko Ka’a</p><h3>Novas raízes para a inovação</h3><p>A estufa inteligente alcança o 9º lugar entre mais de 100 projetos no Inovatech 2026.</p></li>
+            <li class="marco"><span class="marco__estrela" aria-hidden="true"></span><p class="marco__data">2026, expansão</p><h3>O próximo capítulo está em construção</h3><p>Ampliação dos serviços, novos projetos e conexões com o ecossistema de inovação.</p></li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- EQUIPE -->
+      <section class="secao equipe" id="equipe" data-contexto="equipe">
+        <div class="secao__cab">
+          <h2 class="secao__titulo">Grandes ideias são construídas em conjunto.</h2>
+          <div class="secao__texto">
+            <p>Desenvolvimento, engenharia, pesquisa, comunicação, design, marketing e gestão. Diferentes olhares conectados pelo mesmo propósito.</p>
+            <p>Somos uma equipe multidisciplinar que aprende, experimenta e constrói em colaboração.</p>
+          </div>
+        </div>
+        <ul class="valores" aria-label="O que nos move">
+          <li>Criatividade</li><li>Engenharia</li><li>Colaboração</li><li>Propósito</li>
+        </ul>
+      </section>
+
+      <!-- CONTATO -->
+      <section class="secao contato" id="contato" data-contexto="contato">
+        <div class="contato__intro">
+          <h2 class="secao__titulo">Sua próxima grande ideia pode começar com uma conversa.</h2>
+          <p class="secao__texto">Um site, um sistema, uma marca ou um novo desafio tecnológico. Queremos conhecer o que você tem em mente.</p>
+          <ul class="canais">
+            <li>
+              <a class="canal desenhavel" data-whats="geral" href="#" target="_blank" rel="noopener">
+                <svg class="ico-grande" aria-hidden="true"><use href="#i-whatsapp" /></svg>
+                <span><strong>WhatsApp</strong><span>(92) 99133-9221</span></span>
+              </a>
+            </li>
+            <li>
+              <a class="canal desenhavel" href="https://www.instagram.com/startup.orion/" target="_blank" rel="noopener">
+                <svg class="ico-grande" aria-hidden="true"><use href="#i-instagram" /></svg>
+                <span><strong>Instagram</strong><span>@startup.orion</span></span>
+              </a>
+            </li>
+            <li>
+              <a class="canal desenhavel" href="https://startupbase.app/startup/u-orion" target="_blank" rel="noopener">
+                <svg class="ico-grande" aria-hidden="true"><use href="#i-startupbase" /></svg>
+                <span><strong>StartupBase</strong><span>Nosso perfil de startup</span></span>
+              </a>
+            </li>
+          </ul>
+          <p class="contato__local">Manaus, Amazonas, Brasil</p>
+        </div>
+
+        <form class="formulario" id="formulario" novalidate>
+          <div class="campo">
+            <label for="f-nome">Seu nome</label>
+            <input id="f-nome" name="nome" autocomplete="name" required />
+          </div>
+          <div class="campo">
+            <label for="f-servico">Como podemos ajudar?</label>
+            <select id="f-servico" name="servico" required>
+              <option value="">Escolha um assunto</option>
+              <option>Sites e sistemas</option>
+              <option>Identidade visual e design</option>
+              <option>Suporte tecnológico</option>
+              <option>Projetos, automação e inovação</option>
+              <option>Parcerias e outros assuntos</option>
+            </select>
+          </div>
+          <div class="campo">
+            <label for="f-msg">Conte um pouco sobre sua ideia</label>
+            <textarea id="f-msg" name="mensagem" rows="4" required></textarea>
+          </div>
+          <p class="formulario__erro" id="f-erro" role="alert" hidden></p>
+          <button class="botao botao--primario" type="submit">
+            <svg class="ico" aria-hidden="true"><use href="#i-whatsapp" /></svg>
+            Enviar pelo WhatsApp
+          </button>
+          <p class="formulario__nota">Abrimos o WhatsApp com sua mensagem pronta. Nada fica guardado neste site.</p>
+        </form>
+      </section>
+    </main>
+
+    <footer class="rodape">
+      <div class="rodape__marca">
+        <svg class="marca__simbolo" viewBox="238 192 308 292" aria-hidden="true"><image href="../abertura-orion/orion-logo.png" width="856" height="900" /></svg>
+        <p>Tecnologia, inovação e impacto. Manaus, Amazonas.</p>
+      </div>
+      <ul class="rodape__redes">
+        <li><a data-whats="geral" href="#" target="_blank" rel="noopener" aria-label="WhatsApp da ORION"><svg class="ico" aria-hidden="true"><use href="#i-whatsapp" /></svg></a></li>
+        <li><a href="https://www.instagram.com/startup.orion/" target="_blank" rel="noopener" aria-label="Instagram da ORION"><svg class="ico" aria-hidden="true"><use href="#i-instagram" /></svg></a></li>
+        <li><a href="https://startupbase.app/startup/u-orion" target="_blank" rel="noopener" aria-label="Perfil da ORION na StartupBase"><svg class="ico" aria-hidden="true"><use href="#i-startupbase" /></svg></a></li>
+      </ul>
+      <p class="rodape__copy">© 2026 ORION</p>
+    </footer>
+
+    <!-- WhatsApp contextual: o texto muda conforme a seção em que a pessoa está. -->
+    <a class="whats-flutuante" id="whats-flutuante" href="#" target="_blank" rel="noopener">
+      <svg class="ico" aria-hidden="true"><use href="#i-whatsapp" /></svg>
+      <span class="whats-flutuante__texto" id="whats-texto">Conversar no WhatsApp</span>
+    </a>
+
+    <script src="../abertura-orion/abertura-orion.js"></script>
+    <script src="site.js"></script>
+  </body>
+</html>

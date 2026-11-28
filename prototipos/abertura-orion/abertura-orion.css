@@ -1,0 +1,127 @@
+/*
+ * Abertura ORION — animação de apresentação do logotipo.
+ * Cores do site: fundo #070b15, painel #0c1321.
+ * Cores do logo (não alterar): azul #37B5FF, branco #FFFFFF.
+ */
+
+/* Evita que o site "pisque" antes do JS montar a abertura.
+   O script do <head> adiciona esta classe; a abertura a remove ao montar. */
+html.orion-abertura-pendente::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #070b15;
+}
+
+html.orion-abertura-travada,
+html.orion-abertura-travada body {
+  overflow: hidden;
+}
+
+.orion-abertura {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  transition: opacity 600ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.orion-abertura__fundo {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 60% at 50% 46%, #0c1321 0%, #070b15 70%), #070b15;
+  transition: opacity 750ms cubic-bezier(0.4, 0, 0.2, 1) 120ms;
+}
+
+/* Voo até o cabeçalho: o fundo some e o site aparece por trás do símbolo. */
+.orion-abertura.voando {
+  pointer-events: none;
+}
+.orion-abertura.voando .orion-abertura__fundo,
+.orion-abertura.voando .orion-abertura__ceu,
+.orion-abertura.voando .orion-abertura__pular {
+  opacity: 0;
+  transition-delay: 0ms;
+}
+
+.orion-abertura.saindo {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Campo de estrelas ao fundo (desenhado uma vez em canvas). */
+.orion-abertura__ceu {
+  position: absolute;
+  inset: -12px;
+  width: calc(100% + 24px);
+  height: calc(100% + 24px);
+  opacity: 0;
+  transition: opacity 1200ms ease-out, transform 900ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  will-change: transform;
+}
+
+.orion-abertura__ceu.visivel {
+  opacity: 1;
+}
+
+.orion-abertura__palco {
+  position: relative;
+  width: min(86vw, 720px);
+  transition: transform 700ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.orion-abertura.saindo .orion-abertura__palco {
+  transform: scale(0.94);
+}
+
+.orion-abertura__svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.orion-abertura__pular {
+  position: absolute;
+  right: clamp(16px, 4vw, 40px);
+  bottom: clamp(16px, 4vw, 36px);
+  padding: 10px 16px;
+  border: 1px solid #202b3e;
+  border-radius: 999px;
+  background: rgba(12, 19, 33, 0.6);
+  color: #98a6ba;
+  font: 500 14px/1 "DM Sans", system-ui, sans-serif;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 400ms ease 600ms, color 160ms ease, border-color 160ms ease;
+}
+
+.orion-abertura__pular.visivel {
+  opacity: 1;
+}
+
+.orion-abertura__pular:hover {
+  color: #f3f6fc;
+  border-color: #37b5ff;
+}
+
+.orion-abertura__pular:focus-visible {
+  outline: 2px solid #37b5ff;
+  outline-offset: 3px;
+  color: #f3f6fc;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orion-abertura,
+  .orion-abertura__palco,
+  .orion-abertura__ceu {
+    transition-duration: 300ms;
+  }
+  .orion-abertura.saindo .orion-abertura__palco {
+    transform: none;
+  }
+}
