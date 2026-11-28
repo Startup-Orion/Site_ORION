@@ -18,7 +18,7 @@
     "servico-suporte": { rotulo: "Pedir suporte técnico", texto: "Olá, ORION! Preciso de suporte para meu computador." },
     "servico-inovacao": { rotulo: "Falar sobre um projeto novo", texto: "Olá, ORION! Tenho um projeto de inovação ou automação para conversar." },
     projetos: { rotulo: "Falar sobre os projetos", texto: "Olá, ORION! Vi o portfólio de vocês e quero saber mais." },
-    "projeto-orion": { rotulo: "Saber sobre o Projeto ORION", texto: "Olá, ORION! Quero saber sobre o Projeto ORION (visão computacional para acessibilidade)." },
+    "projeto-orion": { rotulo: "Saber sobre o ORION Lite", texto: "Olá, ORION! Quero saber sobre o ORION Lite (tecnologia assistiva com visão computacional)." },
     "projeto-teko": { rotulo: "Saber sobre o Teko Ka’a", texto: "Olá, ORION! Quero saber sobre o projeto Teko Ka’a (estufa inteligente)." },
     "projeto-ada": { rotulo: "Falar sobre eventos", texto: "Olá, ORION! Vi a participação de vocês no Ada Conecta e quero conversar." },
     trajetoria: { rotulo: "Propor uma parceria", texto: "Olá, ORION! Quero conversar sobre uma parceria." },

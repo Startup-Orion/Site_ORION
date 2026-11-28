@@ -228,52 +228,81 @@
         </div>
       </section>
 
-      <!-- PORTFÓLIO: cartões com profundidade -->
+      <!-- PORTFÓLIO: cartões com vídeo e profundidade -->
       <section class="secao projetos" id="projetos" data-contexto="projetos">
         <div class="secao__cab">
           <h2 class="secao__titulo">Projetos, eventos e registros da nossa trajetória.</h2>
+          <p class="secao__texto">Do primeiro protótipo premiado aos encontros do ecossistema de inovação. Abra cada um para ver a história completa, as fotos e o vídeo.</p>
         </div>
         <div class="projetos__lista">
           <article class="projeto" data-contexto="projeto-orion">
             <div class="projeto__cartao">
-              <div class="projeto__foto"><img src="img/orion-inovatech.jpg" alt="Equipe do Projeto ORION reunida com o troféu de campeão no Inovatech 2025" loading="lazy" width="1600" height="1200" /></div>
+              <div class="projeto__midia" style="view-transition-name: midia-orion-lite">
+                <video class="projeto__video" muted loop playsinline preload="none" poster="video/orion-lite-capa.jpg" aria-label="Vídeo: ORION Lite">
+                  <source src="video/orion-lite-loop.webm" type="video/webm" />
+                  <source src="video/orion-lite-loop.mp4" type="video/mp4" />
+                </video>
+                <button class="midia__controle" type="button" aria-label="Pausar vídeo"><span class="midia__icone" aria-hidden="true"></span></button>
+              </div>
               <div class="projeto__corpo">
-                <p class="projeto__tipo">Projeto de acessibilidade</p>
-                <h3>Projeto ORION</h3>
-                <p class="projeto__lema">Mais autonomia. Novos caminhos.</p>
-                <p>Visão computacional e síntese de voz para identificar obstáculos e fornecer orientações auditivas a pessoas com deficiência visual.</p>
-                <p class="projeto__selo"><svg class="ico" aria-hidden="true"><use href="#i-ideia" /></svg> Campeão do Inovatech 2025</p>
-                <ul class="etiquetas"><li>Inteligência artificial</li><li>Visão computacional</li><li>Sistemas embarcados</li></ul>
-                <a class="servico__cta" data-whats="projeto-orion" href="#" target="_blank" rel="noopener">Quero saber sobre o projeto <svg class="ico" aria-hidden="true"><use href="#i-seta" /></svg></a>
+                <p class="projeto__tipo">Tecnologia assistiva</p>
+                <h3 style="view-transition-name: titulo-orion-lite">ORION Lite</h3>
+                <p class="projeto__lema">Do projeto acadêmico à formação da startup.</p>
+                <p>Câmera, visão computacional e síntese de voz para identificar obstáculos e orientar pessoas com deficiência visual.</p>
+                <p class="projeto__selo"><svg class="ico" aria-hidden="true"><use href="#i-ideia" /></svg> 1º lugar no Inov@tech 2025</p>
+                <ul class="etiquetas"><li>Inteligência artificial</li><li>Visão computacional</li><li>Síntese de voz</li></ul>
+                <div class="projeto__acoes">
+                  <a class="botao botao--primario botao--pequeno" href="projeto.html?p=orion-lite">Saiba mais <svg class="ico" aria-hidden="true"><use href="#i-seta" /></svg></a>
+                  <a class="servico__cta" data-whats="projeto-orion" href="#" target="_blank" rel="noopener">Conversar sobre o projeto</a>
+                </div>
               </div>
               <span class="projeto__brilho" aria-hidden="true"></span>
             </div>
           </article>
           <article class="projeto" data-contexto="projeto-teko">
             <div class="projeto__cartao">
-              <div class="projeto__foto"><img src="img/teko-kaa.jpg" alt="Painel do Teko Ka’a com mapa visual da planta e indicadores de saúde vegetal" loading="lazy" width="1600" height="999" /></div>
+              <div class="projeto__midia" style="view-transition-name: midia-teko-kaa">
+                <video class="projeto__video" muted loop playsinline preload="none" poster="video/teko-kaa-capa.jpg" aria-label="Vídeo: Teko Ka’a">
+                  <source src="video/teko-kaa-loop.webm" type="video/webm" />
+                  <source src="video/teko-kaa-loop.mp4" type="video/mp4" />
+                </video>
+                <button class="midia__controle" type="button" aria-label="Pausar vídeo"><span class="midia__icone" aria-hidden="true"></span></button>
+              </div>
               <div class="projeto__corpo">
                 <p class="projeto__tipo">Agricultura inteligente</p>
-                <h3>Teko Ka’a</h3>
+                <h3 style="view-transition-name: titulo-teko-kaa">Teko Ka’a</h3>
                 <p class="projeto__lema">Inovação que cria raízes.</p>
-                <p>Uma estufa inteligente que integra sensores, informações do solo e controle automatizado para apoiar o gerenciamento de cultivos.</p>
-                <p class="projeto__selo"><svg class="ico" aria-hidden="true"><use href="#i-ideia" /></svg> 9º lugar no Inovatech 2026, entre mais de 100 projetos</p>
-                <ul class="etiquetas"><li>Internet das Coisas</li><li>Automação</li><li>Agricultura inteligente</li></ul>
-                <a class="servico__cta" data-whats="projeto-teko" href="#" target="_blank" rel="noopener">Quero saber sobre o Teko Ka’a <svg class="ico" aria-hidden="true"><use href="#i-seta" /></svg></a>
+                <p>Estufa inteligente de baixo custo que monitora o cultivo, aciona irrigação e ventilação e analisa as plantas com visão computacional.</p>
+                <p class="projeto__selo"><svg class="ico" aria-hidden="true"><use href="#i-ideia" /></svg> 9º lugar no Inov@tech 2026, entre mais de 100 projetos</p>
+                <ul class="etiquetas"><li>Internet das Coisas</li><li>Automação</li><li>Visão computacional</li></ul>
+                <div class="projeto__acoes">
+                  <a class="botao botao--primario botao--pequeno" href="projeto.html?p=teko-kaa">Saiba mais <svg class="ico" aria-hidden="true"><use href="#i-seta" /></svg></a>
+                  <a class="servico__cta" data-whats="projeto-teko" href="#" target="_blank" rel="noopener">Conversar sobre o Teko Ka’a</a>
+                </div>
               </div>
               <span class="projeto__brilho" aria-hidden="true"></span>
             </div>
           </article>
           <article class="projeto" data-contexto="projeto-ada">
             <div class="projeto__cartao">
-              <div class="projeto__foto"><img src="img/ada-conecta.jpg" alt="Participantes reunidos no Ada Conecta em Manaus" loading="lazy" width="1600" height="900" /></div>
+              <div class="projeto__midia" style="view-transition-name: midia-ada-conecta">
+                <video class="projeto__video" muted loop playsinline preload="none" poster="video/ada-conecta-capa.jpg" aria-label="Vídeo: Ada Conecta 2026">
+                  <source src="video/ada-conecta-loop.webm" type="video/webm" />
+                  <source src="video/ada-conecta-loop.mp4" type="video/mp4" />
+                </video>
+                <button class="midia__controle" type="button" aria-label="Pausar vídeo"><span class="midia__icone" aria-hidden="true"></span></button>
+              </div>
               <div class="projeto__corpo">
                 <p class="projeto__tipo">Evento, 2ª edição</p>
-                <h3>Ada Conecta 2026</h3>
-                <p class="projeto__lema">10 de outubro de 2026, Venturus, Manaus</p>
-                <p>A ORION apresentou a startup e seus serviços no Ada Conecta, encontro da Manas Tech que dá visibilidade às mulheres na tecnologia no Amazonas. A segunda edição teve a inteligência artificial como tema central.</p>
+                <h3 style="view-transition-name: titulo-ada-conecta">Ada Conecta 2026</h3>
+                <p class="projeto__lema">10 de outubro de 2026, Venturus, Manaus.</p>
+                <p>A ORION apresentou a startup e seus serviços no encontro da Manas Tech que dá visibilidade às mulheres na tecnologia no Amazonas.</p>
+                <p class="projeto__selo"><svg class="ico" aria-hidden="true"><use href="#i-ideia" /></svg> Representada pela Geovana</p>
                 <ul class="etiquetas"><li>Mulheres na tecnologia</li><li>Inteligência artificial</li></ul>
-                <a class="servico__cta" href="https://www.sympla.com.br/evento/ada-conecta-2-edicao/3536056" target="_blank" rel="noopener">Conheça o evento <svg class="ico" aria-hidden="true"><use href="#i-seta" /></svg></a>
+                <div class="projeto__acoes">
+                  <a class="botao botao--primario botao--pequeno" href="projeto.html?p=ada-conecta">Saiba mais <svg class="ico" aria-hidden="true"><use href="#i-seta" /></svg></a>
+                  <a class="servico__cta" data-whats="projeto-ada" href="#" target="_blank" rel="noopener">Conversar com a ORION</a>
+                </div>
               </div>
               <span class="projeto__brilho" aria-hidden="true"></span>
             </div>
@@ -292,11 +321,11 @@
             <path class="linha-tempo__luz" pathLength="1" />
           </svg>
           <ol class="marcos">
-            <li class="marco"><span class="marco__estrela" aria-hidden="true"></span><p class="marco__data">2025, origem</p><h3>Tudo começa com uma ideia</h3><p>Desenvolvimento do Projeto ORION e formação da iniciativa que deu origem à startup.</p></li>
-            <li class="marco"><span class="marco__estrela" aria-hidden="true"></span><p class="marco__data">2025, Inovatech</p><h3>Uma conquista que abre caminhos</h3><p>O Projeto ORION conquista o título de campeão do Inovatech 2025.</p></li>
-            <li class="marco"><span class="marco__estrela" aria-hidden="true"></span><p class="marco__data">Janeiro de 2026, ciência</p><h3>Da pesquisa à publicação</h3><p>Artigo científico do Projeto ORION publicado na Revista FOCO.</p></li>
+            <li class="marco"><span class="marco__estrela" aria-hidden="true"></span><p class="marco__data">2025, origem</p><h3>Tudo começa com uma ideia</h3><p>Desenvolvimento do ORION Lite e formação da iniciativa que deu origem à startup.</p></li>
+            <li class="marco"><span class="marco__estrela" aria-hidden="true"></span><p class="marco__data">2025, Inov@tech</p><h3>Uma conquista que abre caminhos</h3><p>O ORION Lite conquista o primeiro lugar no Inov@tech 2025.</p></li>
+            <li class="marco"><span class="marco__estrela" aria-hidden="true"></span><p class="marco__data">Janeiro de 2026, ciência</p><h3>Da pesquisa à publicação</h3><p>Artigo científico do ORION Lite publicado na Revista FOCO.</p></li>
             <li class="marco"><span class="marco__estrela" aria-hidden="true"></span><p class="marco__data">2026, empreendedorismo</p><h3>Conexões para ir além</h3><p>Participação em iniciativas como Centelha e Sua Ideia Vale 1 Milhão.</p></li>
-            <li class="marco"><span class="marco__estrela" aria-hidden="true"></span><p class="marco__data">2026, Teko Ka’a</p><h3>Novas raízes para a inovação</h3><p>A estufa inteligente alcança o 9º lugar entre mais de 100 projetos no Inovatech 2026.</p></li>
+            <li class="marco"><span class="marco__estrela" aria-hidden="true"></span><p class="marco__data">2026, Teko Ka’a</p><h3>Novas raízes para a inovação</h3><p>A estufa inteligente alcança o 9º lugar entre mais de 100 projetos no Inov@tech 2026.</p></li>
             <li class="marco"><span class="marco__estrela" aria-hidden="true"></span><p class="marco__data">2026, expansão</p><h3>O próximo capítulo está em construção</h3><p>Ampliação dos serviços, novos projetos e conexões com o ecossistema de inovação.</p></li>
           </ol>
         </div>
@@ -395,5 +424,6 @@
 
     <script src="../abertura-orion/abertura-orion.js"></script>
     <script src="site.js"></script>
+    <script src="midia.js"></script>
   </body>
 </html>

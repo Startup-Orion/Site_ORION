@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Portfólio — ORION</title>
+    <meta name="theme-color" content="#070b15" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=Space+Grotesk:wght@500;600&display=swap"
+    />
+    <link rel="stylesheet" href="site.css" />
+    <link rel="stylesheet" href="projeto.css" />
+  </head>
+  <body class="pagina-projeto">
+    <a class="pular-conteudo" href="#conteudo">Pular para o conteúdo</a>
+
+    <svg width="0" height="0" class="sr" aria-hidden="true">
+      <defs>
+        <symbol id="i-whatsapp" viewBox="0 0 48 48">
+          <path class="t" d="M24 6a18 18 0 0 0-15.6 27L6 42l9.3-2.4A18 18 0 1 0 24 6z" />
+          <path class="t" d="M17.5 15.5c-1 1-1.5 2.5-1 4.3 1.2 4.4 6.6 9.8 11 11 1.8.5 3.3 0 4.3-1l.7-1.8-4-2-1.9 1.6c-2.4-1-4.7-3.3-5.7-5.7l1.6-1.9-2-4z" />
+        </symbol>
+        <symbol id="i-instagram" viewBox="0 0 48 48">
+          <path class="t" d="M15 6h18a9 9 0 0 1 9 9v18a9 9 0 0 1-9 9H15a9 9 0 0 1-9-9V15a9 9 0 0 1 9-9z" />
+          <path class="t" d="M24 16a8 8 0 1 1 0 16a8 8 0 1 1 0-16" />
+          <circle class="n" cx="34.5" cy="13.5" r="1.8" />
+        </symbol>
+        <symbol id="i-startupbase" viewBox="0 0 48 48">
+          <path class="t" d="M24 4c7 5 10 13 8 24l-8 6-8-6c-2-11 1-19 8-24z" />
+          <path class="t" d="M16 28l-6 6 2 6 6-4M32 28l6 6-2 6-6-4M21 38l3 6 3-6" />
+          <circle class="n" cx="24" cy="18" r="3" />
+        </symbol>
+        <symbol id="i-ideia" viewBox="0 0 48 48">
+          <path class="t" d="M24 4v8M24 36v8M4 24h8M36 24h8M24 16l3 8-3 8-3-8z" />
+          <path class="t" d="M11 11l5 5M37 11l-5 5M11 37l5-5M37 37l-5-5" />
+          <circle class="n" cx="24" cy="24" r="2" />
+        </symbol>
+        <symbol id="i-seta" viewBox="0 0 24 24"><path class="t" d="M7 17L17 7M9 7h8v8" /></symbol>
+        <symbol id="i-voltar" viewBox="0 0 24 24"><path class="t" d="M19 12H5M11 6l-6 6 6 6" /></symbol>
+        <symbol id="i-som" viewBox="0 0 24 24"><path class="t" d="M4 9h4l5-4v14l-5-4H4zM16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12" /></symbol>
+      </defs>
+    </svg>
+
+    <header class="topo rolado" id="topo">
+      <div class="topo__dentro">
+        <a class="marca" href="index.html" aria-label="ORION, página inicial">
+          <svg class="marca__simbolo" viewBox="238 192 308 292" aria-hidden="true">
+            <image href="../abertura-orion/orion-logo.png" width="856" height="900" />
+          </svg>
+          <span class="marca__nome">ORION</span>
+        </a>
+        <nav class="menu" id="menu" aria-label="Seções do site">
+          <a href="index.html#sobre">Sobre</a>
+          <a href="index.html#servicos">Serviços</a>
+          <a href="index.html#projetos" class="atual">Portfólio</a>
+          <a href="index.html#trajetoria">Trajetória</a>
+          <a href="index.html#contato">Contato</a>
+        </nav>
+        <a class="botao botao--whats topo__whats" id="topo-whats" href="#" target="_blank" rel="noopener">
+          <svg class="ico" aria-hidden="true"><use href="#i-whatsapp" /></svg>
+          <span>WhatsApp</span>
+        </a>
+        <button class="menu-botao" type="button" aria-expanded="false" aria-controls="menu">
+          <span></span><span></span><span class="sr">Abrir menu</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Conteúdo montado a partir de projetos.js -->
+    <main id="conteudo" class="detalhe"></main>
+
+    <footer class="rodape">
+      <div class="rodape__marca">
+        <svg class="marca__simbolo" viewBox="238 192 308 292" aria-hidden="true"><image href="../abertura-orion/orion-logo.png" width="856" height="900" /></svg>
+        <p>Tecnologia, inovação e impacto. Manaus, Amazonas.</p>
+      </div>
+      <ul class="rodape__redes">
+        <li><a id="rodape-whats" href="#" target="_blank" rel="noopener" aria-label="WhatsApp da ORION"><svg class="ico" aria-hidden="true"><use href="#i-whatsapp" /></svg></a></li>
+        <li><a href="https://www.instagram.com/startup.orion/" target="_blank" rel="noopener" aria-label="Instagram da ORION"><svg class="ico" aria-hidden="true"><use href="#i-instagram" /></svg></a></li>
+        <li><a href="https://startupbase.app/startup/u-orion" target="_blank" rel="noopener" aria-label="Perfil da ORION na StartupBase"><svg class="ico" aria-hidden="true"><use href="#i-startupbase" /></svg></a></li>
+      </ul>
+      <p class="rodape__copy">© 2026 ORION</p>
+    </footer>
+
+    <!-- Galeria em tela cheia -->
+    <dialog class="lightbox" id="lightbox" aria-label="Galeria de fotos">
+      <figure class="lightbox__figura">
+        <img id="lightbox-img" alt="" />
+        <figcaption id="lightbox-legenda"></figcaption>
+      </figure>
+      <button class="lightbox__botao lightbox__fechar" type="button" aria-label="Fechar galeria">×</button>
+      <button class="lightbox__botao lightbox__ant" type="button" aria-label="Foto anterior">‹</button>
+      <button class="lightbox__botao lightbox__prox" type="button" aria-label="Próxima foto">›</button>
+    </dialog>
+
+    <script src="projetos.js"></script>
+    <script src="projeto.js"></script>
+    <script src="midia.js"></script>
+  </body>
+</html>
