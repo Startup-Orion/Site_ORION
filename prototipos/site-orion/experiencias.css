@@ -1,0 +1,353 @@
+/* Experiências interativas: demo de visão computacional e "Monte a constelação do seu projeto". */
+
+/* ---------- Experimente (visão computacional) ---------- */
+.experimente {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: clamp(32px, 5vw, 72px);
+  align-items: center;
+}
+.experimente .secao__texto {
+  margin-top: 20px;
+}
+.experimente__acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 32px;
+}
+.experimente__privacidade {
+  margin-top: 16px;
+  color: #6c7a90;
+  font-size: 14px;
+}
+.visao {
+  border: 1px solid var(--linha);
+  border-radius: 20px;
+  background: var(--painel);
+  overflow: hidden;
+  transition: border-color 400ms, box-shadow 400ms;
+}
+.visao.ativa {
+  border-color: #2c3d58;
+  box-shadow: 0 30px 80px -40px rgba(55, 181, 255, 0.35);
+}
+.visao__tela {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background:
+    linear-gradient(rgba(55, 181, 255, 0.05) 1px, transparent 1px) 0 0 / 32px 32px,
+    linear-gradient(90deg, rgba(55, 181, 255, 0.05) 1px, transparent 1px) 0 0 / 32px 32px,
+    #05080f;
+}
+.visao__video,
+.visao__desenho {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.visao__video {
+  opacity: 0;
+}
+.visao.camera .visao__video {
+  opacity: 1;
+}
+.visao.foto .visao__desenho {
+  object-fit: contain;
+}
+.visao__vazio {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 12px;
+  color: #6c7a90;
+  font-size: 15px;
+}
+.visao__vazio .ico-grande {
+  width: 56px;
+  height: 56px;
+  opacity: 0.7;
+}
+.visao__vazio[hidden] {
+  display: none;
+}
+.visao__barra {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 64px;
+  padding: 12px 16px 12px 20px;
+  border-top: 1px solid var(--linha);
+}
+.visao__leitura {
+  font-weight: 500;
+  color: var(--texto);
+}
+.visao__leitura:empty::before {
+  content: "Ligue a câmera ou use a foto do evento.";
+  color: #6c7a90;
+  font-weight: 400;
+}
+.visao__controles {
+  display: flex;
+  gap: 8px;
+  flex: none;
+}
+.visao__controles[hidden] {
+  display: none;
+}
+.visao__controles [aria-pressed="false"] {
+  color: var(--suave);
+}
+
+@media (max-width: 960px) {
+  .experimente {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 680px) {
+  .visao__barra {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* ---------- Monte a constelação do seu projeto ---------- */
+.monte__painel {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  border: 1px solid var(--linha);
+  border-radius: 20px;
+  background: var(--painel);
+  overflow: hidden;
+}
+.monte__perguntas {
+  padding: clamp(24px, 4vw, 44px);
+  display: flex;
+  flex-direction: column;
+  min-height: 420px;
+}
+.monte__passo {
+  color: var(--azul);
+  font-weight: 500;
+  font-size: 15px;
+}
+.monte__titulo {
+  font-size: clamp(24px, 2.6vw, 32px);
+  line-height: 1.15;
+  margin: 8px 0 6px;
+  outline: none;
+}
+.monte__ajuda {
+  color: var(--suave);
+  font-size: 15px;
+}
+.monte__opcoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 24px 0;
+}
+.monte__opcao {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 16px;
+  border: 1px solid var(--linha);
+  border-radius: 999px;
+  background: var(--fundo);
+  color: var(--texto);
+  font: 500 15px/1.2 var(--corpo);
+  cursor: pointer;
+  transition: border-color 200ms, background-color 200ms, transform 150ms;
+}
+.monte__opcao:hover {
+  border-color: #3a4b66;
+}
+.monte__opcao:active {
+  transform: scale(0.97);
+}
+.monte__marca {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1.5px solid #4a5b76;
+  transition: background-color 200ms, border-color 200ms, box-shadow 200ms;
+}
+.monte__opcao[aria-pressed="true"] {
+  border-color: var(--azul);
+  background: rgba(55, 181, 255, 0.1);
+}
+.monte__opcao[aria-pressed="true"] .monte__marca {
+  background: var(--azul);
+  border-color: var(--azul);
+  box-shadow: 0 0 10px var(--azul);
+}
+.monte__nav {
+  margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding-top: 16px;
+}
+.monte__nav .botao[disabled] {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.monte__form {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.monte__campo {
+  margin: 24px 0;
+  padding: 13px 14px;
+  background: var(--fundo);
+  color: var(--texto);
+  border: 1px solid var(--linha);
+  border-radius: 10px;
+  font: inherit;
+  font-size: 17px;
+}
+.monte__campo:focus {
+  outline: none;
+  border-color: var(--azul);
+  box-shadow: 0 0 0 3px rgba(55, 181, 255, 0.18);
+}
+.monte__lista {
+  list-style: none;
+  padding: 0;
+  margin: 14px 0 0;
+  display: grid;
+  gap: 8px;
+}
+.monte__lista li {
+  position: relative;
+  padding-left: 20px;
+}
+.monte__lista li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 0.62em;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--azul);
+  box-shadow: 0 0 8px var(--azul);
+}
+.monte__proximo {
+  margin-top: 16px;
+  color: var(--suave);
+}
+.monte__ceu {
+  position: relative;
+  border-left: 1px solid var(--linha);
+  background: radial-gradient(ellipse 80% 70% at 60% 40%, #0f1a2e, #070b15 75%);
+}
+.monte__svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 320px;
+}
+.monte__fundo circle {
+  fill: #fff;
+}
+.monte__linha {
+  stroke: var(--azul);
+  stroke-width: 1.4;
+  stroke-opacity: 0.75;
+  stroke-dasharray: 1 2;
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 700ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.monte__linha.fecho {
+  stroke-opacity: 0.45;
+}
+.monte__estrela .halo {
+  fill: var(--azul);
+  opacity: 0.18;
+}
+.monte__estrela .nucleo {
+  fill: #fff;
+}
+.monte__estrela text {
+  fill: var(--suave);
+  font: 500 13px var(--corpo);
+}
+.monte__estrela.nova {
+  animation: estrela-nasce 650ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+@keyframes estrela-nasce {
+  0% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+}
+.monte__estrela.nova .halo {
+  animation: halo-nasce 900ms ease-out;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+@keyframes halo-nasce {
+  0% {
+    transform: scale(0.2);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.18;
+  }
+}
+.monte__svg.completa .halo {
+  animation: pulsar 2.4s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.monte__svg.completa .monte__estrela text {
+  fill: var(--texto);
+}
+@keyframes pulsar {
+  50% {
+    transform: scale(1.35);
+    opacity: 0.32;
+  }
+}
+.monte__nome {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 18px;
+  text-align: center;
+  font: 500 18px/1.2 var(--titulo);
+  letter-spacing: 0.02em;
+  color: var(--texto);
+  min-height: 1.2em;
+}
+
+@media (max-width: 960px) {
+  .monte__painel {
+    grid-template-columns: 1fr;
+  }
+  .monte__ceu {
+    border-left: 0;
+    border-top: 1px solid var(--linha);
+    order: -1;
+  }
+  .monte__perguntas {
+    min-height: 0;
+  }
+  .monte__svg {
+    min-height: 0;
+    aspect-ratio: 560 / 420;
+  }
+}

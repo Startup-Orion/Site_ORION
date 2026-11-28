@@ -21,6 +21,8 @@
     "projeto-orion": { rotulo: "Saber sobre o ORION Lite", texto: "Olá, ORION! Quero saber sobre o ORION Lite (tecnologia assistiva com visão computacional)." },
     "projeto-teko": { rotulo: "Saber sobre o Teko Ka’a", texto: "Olá, ORION! Quero saber sobre o projeto Teko Ka’a (estufa inteligente)." },
     "projeto-ada": { rotulo: "Falar sobre eventos", texto: "Olá, ORION! Vi a participação de vocês no Ada Conecta e quero conversar." },
+    experimente: { rotulo: "Quero uma solução com IA", texto: "Olá, ORION! Testei a demo de visão computacional no site e quero conversar sobre uma solução com IA." },
+    monte: { rotulo: "Prefiro conversar direto", texto: "Olá, ORION! Vim pelo site e prefiro conversar direto sobre meu projeto." },
     trajetoria: { rotulo: "Propor uma parceria", texto: "Olá, ORION! Quero conversar sobre uma parceria." },
     equipe: { rotulo: "Falar com a equipe", texto: "Olá, ORION! Quero conversar com a equipe." },
   };
@@ -225,30 +227,86 @@
   });
 
   var escala = 1;
-  function medir() {
-    escala = cinturao.clientWidth / 600;
+  // Giro da constelação (graus): começa "norte para cima" e gira até a inclinação real no céu de Manaus.
+  var giro = 0;
+  var CENTRO = { x: 300, y: 320 };
+  function posicionar(a) {
+    var r = giro * Math.PI / 180;
+    var encaixe = 1 - 0.14 * Math.abs(Math.sin(r)); // encolhe um pouco quando deitada, para caber
+    var dx = a.x - CENTRO.x;
+    var dy = a.y - CENTRO.y;
+    a.bx = CENTRO.x + (dx * Math.cos(r) - dy * Math.sin(r)) * encaixe;
+    a.by = CENTRO.y + (dx * Math.sin(r) + dy * Math.cos(r)) * encaixe;
+  }
+  function posicionarRotulos() {
     var movel = window.innerWidth < 680;
+    var inclinada = Math.abs(((giro + 540) % 360) - 180) > 20;
     ASTROS.forEach(function (a) {
-      var p = movel && a.rotMovel ? a.rotMovel : a.rot;
       var rot = a.el.querySelector(".astro__rotulo");
-      if (p && rot) {
+      if (!rot) return;
+      if (!inclinada) {
+        var p = movel && a.rotMovel ? a.rotMovel : a.rot;
         rot.style.left = p.left;
         rot.style.top = p.top;
+        rot.style.transform = "";
+      } else {
+        // Com a figura girada, o rótulo vai para o lado com mais espaço.
+        var paraEsquerda = a.bx > 330;
+        rot.style.left = paraEsquerda ? "-18px" : "18px";
+        rot.style.top = "-9px";
+        rot.style.transform = paraEsquerda ? "translateX(-100%)" : "";
       }
     });
   }
+  function medir() {
+    escala = cinturao.clientWidth / 600;
+    ASTROS.forEach(posicionar);
+    posicionarRotulos();
+  }
   function desenharCinturao() {
     ASTROS.forEach(function (a) {
-      var x = a.x * escala + a.ox * a.z;
-      var y = a.y * escala + a.oy * a.z;
+      var x = a.bx * escala + a.ox * a.z;
+      var y = a.by * escala + a.oy * a.z;
       a.el.style.transform = "translate(" + x.toFixed(1) + "px," + y.toFixed(1) + "px)";
     });
     linhas.forEach(function (l) {
-      l.el.setAttribute("x1", (l.a.x + (l.a.ox * l.a.z) / escala).toFixed(1));
-      l.el.setAttribute("y1", (l.a.y + (l.a.oy * l.a.z) / escala).toFixed(1));
-      l.el.setAttribute("x2", (l.b.x + (l.b.ox * l.b.z) / escala).toFixed(1));
-      l.el.setAttribute("y2", (l.b.y + (l.b.oy * l.b.z) / escala).toFixed(1));
+      l.el.setAttribute("x1", (l.a.bx + (l.a.ox * l.a.z) / escala).toFixed(1));
+      l.el.setAttribute("y1", (l.a.by + (l.a.oy * l.a.z) / escala).toFixed(1));
+      l.el.setAttribute("x2", (l.b.bx + (l.b.ox * l.b.z) / escala).toFixed(1));
+      l.el.setAttribute("y2", (l.b.by + (l.b.oy * l.b.z) / escala).toFixed(1));
     });
+  }
+
+  // Céu real de Manaus: gira o cinturão até a inclinação de agora e conta onde Órion está.
+  var textoCeu = document.getElementById("cinturao-ceu");
+  var heroSecao = document.getElementById("inicio");
+  function girarPara(alvoGiro, duracao) {
+    var inicio = giro;
+    var delta = ((alvoGiro - inicio + 540) % 360) - 180; // caminho mais curto
+    if (reduzido || !duracao) {
+      giro = inicio + delta;
+      medir();
+      desenharCinturao();
+      return;
+    }
+    var t0 = null;
+    function quadro(agora) {
+      if (t0 == null) t0 = agora;
+      var k = Math.min(1, (agora - t0) / duracao);
+      var e = k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
+      giro = inicio + delta * e;
+      medir();
+      desenharCinturao();
+      if (k < 1) requestAnimationFrame(quadro);
+    }
+    requestAnimationFrame(quadro);
+  }
+  function atualizarCeu(duracao) {
+    if (!window.OrionCeu) return;
+    var c = window.OrionCeu.calcular();
+    textoCeu.textContent = c.texto;
+    heroSecao.classList.toggle("ceu-dia", c.dia);
+    girarPara(c.giro, duracao);
   }
   medir();
   desenharCinturao();
@@ -510,6 +568,13 @@
         l.el.style.strokeDashoffset = "0";
       });
       setTimeout(montarLinha, 1300);
+      // Depois que as linhas se desenham, a constelação gira para a posição real.
+      setTimeout(function () {
+        atualizarCeu(1800);
+        setInterval(function () {
+          atualizarCeu(1200);
+        }, 60000);
+      }, reduzido ? 0 : 1500);
     });
   }
   if (!reduzido) document.body.classList.add("anima-entrada");

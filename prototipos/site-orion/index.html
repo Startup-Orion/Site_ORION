@@ -22,6 +22,7 @@
     <link rel="preload" href="../abertura-orion/orion-logo.png" as="image" />
     <link rel="stylesheet" href="../abertura-orion/abertura-orion.css" />
     <link rel="stylesheet" href="site.css" />
+    <link rel="stylesheet" href="experiencias.css" />
   </head>
   <body>
     <a class="pular-conteudo" href="#conteudo">Pular para o conteúdo</a>
@@ -137,6 +138,7 @@
           </svg>
           <div class="cinturao__estrelas"></div>
           <p class="cinturao__dica" id="cinturao-dica">Toque numa estrela do cinturão para ver o serviço</p>
+          <p class="cinturao__ceu" id="cinturao-ceu" title="Calculado para Manaus (3°07′ S, 60°01′ O) com o relógio do seu aparelho."></p>
           <div class="cinturao__cartao" id="cinturao-cartao" role="dialog" aria-modal="false" aria-labelledby="cc-titulo" hidden>
             <button class="cinturao__fechar" type="button" aria-label="Fechar">×</button>
             <p class="cinturao__estrela" id="cc-estrela"></p>
@@ -307,6 +309,42 @@
         </div>
       </section>
 
+      <!-- EXPERIMENTE: visão computacional no navegador -->
+      <section class="secao experimente" id="experimente" data-contexto="experimente">
+        <div class="experimente__texto">
+          <h2 class="secao__titulo">Veja o que o ORION Lite vê.</h2>
+          <p class="secao__texto">
+            O ORION Lite usa visão computacional e voz para orientar pessoas com deficiência visual. Aqui você
+            experimenta uma versão simplificada: a câmera do seu aparelho identifica pessoas e objetos e o site
+            descreve em voz alta o que está à frente.
+          </p>
+          <div class="experimente__acoes">
+            <button class="botao botao--primario" type="button" id="visao-camera">Ligar a câmera</button>
+            <button class="botao botao--fantasma" type="button" id="visao-foto">Testar com uma foto do evento</button>
+          </div>
+          <p class="experimente__privacidade">
+            Tudo roda no seu aparelho. Nenhuma imagem é enviada ou guardada.
+          </p>
+        </div>
+        <div class="visao" id="visao">
+          <div class="visao__tela">
+            <video class="visao__video" id="visao-video" playsinline muted></video>
+            <canvas class="visao__desenho" id="visao-desenho"></canvas>
+            <div class="visao__vazio" id="visao-vazio">
+              <svg class="ico-grande" aria-hidden="true"><use href="#i-inovacao" /></svg>
+              <p>A imagem aparece aqui.</p>
+            </div>
+          </div>
+          <div class="visao__barra">
+            <p class="visao__leitura" id="visao-leitura" aria-live="polite"></p>
+            <div class="visao__controles" id="visao-controles" hidden>
+              <button class="botao botao--fantasma botao--pequeno" type="button" id="visao-voz" aria-pressed="true">Voz ligada</button>
+              <button class="botao botao--fantasma botao--pequeno" type="button" id="visao-parar">Desligar</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <!-- TRAJETÓRIA: desenhada pela rolagem -->
       <section class="secao trajetoria" id="trajetoria" data-contexto="trajetoria">
         <div class="secao__cab">
@@ -340,6 +378,25 @@
         <ul class="valores" aria-label="O que nos move">
           <li>Criatividade</li><li>Engenharia</li><li>Colaboração</li><li>Propósito</li>
         </ul>
+      </section>
+
+      <!-- MONTE A CONSTELAÇÃO DO SEU PROJETO -->
+      <section class="secao monte" id="monte" data-contexto="monte">
+        <div class="secao__cab">
+          <h2 class="secao__titulo">Monte a constelação do seu projeto.</h2>
+          <p class="secao__texto">Quatro perguntas rápidas. A cada resposta, uma estrela se acende. No fim, você recebe um resumo e manda tudo pronto para a nossa equipe no WhatsApp.</p>
+        </div>
+        <div class="monte__painel">
+          <div class="monte__perguntas" id="monte-perguntas" aria-live="polite"></div>
+          <div class="monte__ceu">
+            <svg class="monte__svg" id="monte-svg" viewBox="0 0 560 420" role="img" aria-label="Constelação formada pelas suas respostas">
+              <g class="monte__fundo"></g>
+              <g class="monte__linhas"></g>
+              <g class="monte__estrelas"></g>
+            </svg>
+            <p class="monte__nome" id="monte-nome"></p>
+          </div>
+        </div>
       </section>
 
       <!-- CONTATO -->
@@ -420,7 +477,10 @@
     </a>
 
     <script src="../abertura-orion/abertura-orion.js"></script>
+    <script src="ceu.js"></script>
     <script src="site.js"></script>
     <script src="midia.js"></script>
+    <script src="visao.js"></script>
+    <script src="constelacao.js"></script>
   </body>
 </html>

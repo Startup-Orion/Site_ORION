@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ORION — Modo estande</title>
+    <meta name="robots" content="noindex" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=Space+Grotesk:wght@500;600&display=swap"
+    />
+    <style>
+      /* Feito para TV 16:9 (1920×1080). Tudo em vh/vw para escalar em qualquer tela. */
+      :root {
+        --fundo: #070b15;
+        --painel: #0c1321;
+        --linha: #202b3e;
+        --texto: #f3f6fc;
+        --suave: #98a6ba;
+        --azul: #37b5ff;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        background: var(--fundo);
+        color: var(--texto);
+        font-family: "DM Sans", system-ui, sans-serif;
+        overflow: hidden;
+      }
+      body.sem-cursor {
+        cursor: none;
+      }
+      .estande {
+        position: relative;
+        height: 100vh;
+        display: grid;
+        grid-template-columns: 1.35fr 1fr;
+        gap: 4vh;
+        padding: 5vh 5vh 5vh 5vh;
+        background: radial-gradient(ellipse 60% 70% at 75% 40%, #0f1a2e, transparent 70%);
+      }
+      .ceu {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+      }
+      /* Vídeos */
+      .palco {
+        position: relative;
+        border-radius: 3vh;
+        overflow: hidden;
+        background: #000;
+        border: 1px solid var(--linha);
+      }
+      .palco video {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0;
+        transition: opacity 1s ease;
+      }
+      .palco video.visivel {
+        opacity: 1;
+      }
+      /* fundo desfocado do próprio vídeo vertical, para preencher a tela larga */
+      .palco video.fundo-desfocado {
+        filter: blur(40px) brightness(0.45) saturate(1.2);
+        transform: scale(1.2);
+      }
+      .palco video.principal {
+        object-fit: contain;
+      }
+      .legenda {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        padding: 10vh 4vh 4vh;
+        background: linear-gradient(transparent, rgba(4, 7, 14, 0.92));
+      }
+      .legenda__tipo {
+        color: var(--azul);
+        font-size: 2.4vh;
+        font-weight: 500;
+        margin: 0;
+      }
+      .legenda__titulo {
+        font: 600 7vh/1 "Space Grotesk", sans-serif;
+        letter-spacing: -0.03em;
+        margin: 1vh 0;
+      }
+      .legenda__selo {
+        display: inline-block;
+        margin: 0;
+        padding: 1vh 2vh;
+        border-radius: 999px;
+        background: rgba(55, 181, 255, 0.14);
+        color: var(--azul);
+        font-size: 2.3vh;
+        font-weight: 600;
+      }
+      .progresso {
+        position: absolute;
+        top: 3vh;
+        left: 4vh;
+        right: 4vh;
+        display: flex;
+        gap: 1vh;
+      }
+      .progresso span {
+        flex: 1;
+        height: 0.5vh;
+        border-radius: 1vh;
+        background: rgba(255, 255, 255, 0.25);
+        overflow: hidden;
+      }
+      .progresso i {
+        display: block;
+        height: 100%;
+        width: 0;
+        background: #fff;
+      }
+      /* Lado direito */
+      .lado {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 2vh 1vh;
+      }
+      .marca {
+        display: flex;
+        align-items: center;
+        gap: 2vh;
+      }
+      .marca svg {
+        width: 9vh;
+        height: auto;
+        aspect-ratio: 308 / 292;
+      }
+      .marca span {
+        font: 600 5vh/1 "Space Grotesk", sans-serif;
+        letter-spacing: 0.2em;
+      }
+      .chamada {
+        font: 500 5.6vh/1.08 "Space Grotesk", sans-serif;
+        letter-spacing: -0.03em;
+        margin: 4vh 0 0;
+      }
+      .chamada__sub {
+        color: var(--suave);
+        font-size: 2.6vh;
+        margin: 2vh 0 0;
+      }
+      .qrs {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3vh;
+      }
+      .qr {
+        background: #fff;
+        color: var(--fundo);
+        border-radius: 2.5vh;
+        padding: 2.6vh;
+        display: grid;
+        gap: 1.6vh;
+        justify-items: center;
+        text-align: center;
+      }
+      .qr img {
+        width: 100%;
+        aspect-ratio: 1;
+      }
+      .qr strong {
+        font: 600 2.6vh/1.1 "Space Grotesk", sans-serif;
+      }
+      .qr span {
+        font-size: 2vh;
+        color: #3b4a60;
+      }
+      .aponte {
+        color: var(--suave);
+        font-size: 2.2vh;
+        text-align: center;
+        margin: 2vh 0 0;
+      }
+      .dica {
+        position: fixed;
+        top: 2vh;
+        right: 2vh;
+        padding: 1vh 2vh;
+        border-radius: 999px;
+        background: rgba(12, 19, 33, 0.85);
+        border: 1px solid var(--linha);
+        color: var(--suave);
+        font-size: 1.8vh;
+        transition: opacity 600ms;
+      }
+      body.sem-cursor .dica {
+        opacity: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="estande">
+      <canvas class="ceu" id="ceu" aria-hidden="true"></canvas>
+
+      <section class="palco" aria-label="Projetos da ORION">
+        <video class="fundo-desfocado" id="v-fundo" muted playsinline aria-hidden="true"></video>
+        <video class="principal" id="v-principal" muted playsinline></video>
+        <div class="progresso" id="progresso"></div>
+        <div class="legenda">
+          <p class="legenda__tipo" id="l-tipo"></p>
+          <h1 class="legenda__titulo" id="l-titulo"></h1>
+          <p class="legenda__selo" id="l-selo"></p>
+        </div>
+      </section>
+
+      <aside class="lado">
+        <div>
+          <div class="marca">
+            <svg viewBox="238 192 308 292" aria-hidden="true"><image href="../abertura-orion/orion-logo.png" width="856" height="900" /></svg>
+            <span>ORION</span>
+          </div>
+          <p class="chamada">Transformamos ideias em soluções que fazem a diferença.</p>
+          <p class="chamada__sub">Sites, sistemas, identidade visual, IA, IoT e automação. De Manaus.</p>
+        </div>
+        <div>
+          <div class="qrs">
+            <div class="qr">
+              <img src="img/qr/whatsapp.svg" alt="QR code para conversar com a ORION no WhatsApp" />
+              <strong>Converse com a gente</strong>
+              <span>WhatsApp (92) 99133-9221</span>
+            </div>
+            <div class="qr">
+              <img src="img/qr/instagram.svg" alt="QR code para o Instagram @startup.orion" />
+              <strong>Siga a ORION</strong>
+              <span>@startup.orion</span>
+            </div>
+          </div>
+          <p class="aponte">Aponte a câmera do celular para um dos códigos.</p>
+        </div>
+      </aside>
+    </main>
+    <p class="dica">Tecla F: tela cheia</p>
+
+    <script src="projetos.js"></script>
+    <script>
+      (function () {
+        "use strict";
+        var lista = window.PROJETOS_ORION || [];
+        var principal = document.getElementById("v-principal");
+        var fundo = document.getElementById("v-fundo");
+        var barras = document.getElementById("progresso");
+        var atual = -1;
+
+        lista.forEach(function () {
+          var s = document.createElement("span");
+          s.appendChild(document.createElement("i"));
+          barras.appendChild(s);
+        });
+
+        function tocar(i) {
+          atual = (i + lista.length) % lista.length;
+          var p = lista[atual];
+          var src = "video/" + p.slug + "-loop.mp4";
+          [principal, fundo].forEach(function (v) {
+            v.classList.remove("visivel");
+          });
+          setTimeout(function () {
+            principal.src = src;
+            fundo.src = src;
+            document.getElementById("l-tipo").textContent = p.tipo;
+            document.getElementById("l-titulo").textContent = p.titulo;
+            document.getElementById("l-selo").textContent = p.selo;
+            Promise.all([principal.play(), fundo.play()]).catch(function () {});
+            principal.classList.add("visivel");
+            fundo.classList.add("visivel");
+          }, 500);
+          Array.prototype.forEach.call(barras.querySelectorAll("i"), function (b, j) {
+            b.style.width = j < atual ? "100%" : "0";
+          });
+        }
+        principal.addEventListener("timeupdate", function () {
+          var b = barras.querySelectorAll("i")[atual];
+          if (b && principal.duration) b.style.width = (100 * principal.currentTime) / principal.duration + "%";
+        });
+        principal.addEventListener("ended", function () {
+          tocar(atual + 1);
+        });
+        tocar(0);
+
+        // Tela cheia (tecla F ou duplo clique) e cursor que some parado.
+        function telaCheia() {
+          if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(function () {});
+          else document.exitFullscreen();
+        }
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "f" || e.key === "F") telaCheia();
+          if (e.key === "ArrowRight") tocar(atual + 1);
+          if (e.key === "ArrowLeft") tocar(atual - 1);
+        });
+        document.addEventListener("dblclick", telaCheia);
+        var parado;
+        function mexeu() {
+          document.body.classList.remove("sem-cursor");
+          clearTimeout(parado);
+          parado = setTimeout(function () {
+            document.body.classList.add("sem-cursor");
+          }, 2500);
+        }
+        document.addEventListener("pointermove", mexeu);
+        mexeu();
+
+        // Céu discreto
+        var c = document.getElementById("ceu");
+        var ctx = c.getContext("2d");
+        function desenharCeu() {
+          var dpr = Math.min(devicePixelRatio || 1, 2);
+          c.width = innerWidth * dpr;
+          c.height = innerHeight * dpr;
+          ctx.scale(dpr, dpr);
+          var s = 7;
+          function r() {
+            s = (s * 1103515245 + 12345) >>> 0;
+            return s / 4294967296;
+          }
+          for (var k = 0; k < 120; k++) {
+            ctx.globalAlpha = 0.1 + r() * 0.4;
+            ctx.fillStyle = r() < 0.25 ? "#37b5ff" : "#fff";
+            ctx.beginPath();
+            ctx.arc(r() * innerWidth, r() * innerHeight, 0.5 + r() * r() * 1.4, 0, 6.283);
+            ctx.fill();
+          }
+        }
+        desenharCeu();
+        addEventListener("resize", desenharCeu);
+      })();
+    </script>
+  </body>
+</html>

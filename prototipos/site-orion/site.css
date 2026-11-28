@@ -160,6 +160,8 @@ p {
   font: 600 16px/1 var(--corpo);
   text-decoration: none;
   border: 1px solid transparent;
+  background: transparent;
+  color: inherit;
   cursor: pointer;
   transition: transform 200ms var(--suave-saida), background-color 200ms, border-color 200ms, color 200ms;
 }
@@ -494,6 +496,46 @@ button.astro[aria-expanded="true"] .astro__rotulo {
   text-align: center;
   color: #6c7a90;
   font-size: 14px;
+}
+.cinturao__ceu {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -44px;
+  text-align: center;
+  color: var(--suave);
+  font-size: 14px;
+  line-height: 1.4;
+  padding: 0 8px;
+  min-height: 1.4em;
+}
+.cinturao__ceu::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 8px;
+  border-radius: 50%;
+  background: var(--azul);
+  box-shadow: 0 0 8px var(--azul);
+  vertical-align: 2px;
+}
+.cinturao__ceu:empty::before {
+  display: none;
+}
+/* De dia em Manaus, o céu do hero clareia de leve. */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: -120px 0 0;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(ellipse 60% 55% at 70% 20%, rgba(55, 140, 220, 0.13), transparent 70%);
+  opacity: 0;
+  transition: opacity 2s ease;
+}
+.hero.ceu-dia::before {
+  opacity: 1;
 }
 .cinturao__cartao {
   position: absolute;
