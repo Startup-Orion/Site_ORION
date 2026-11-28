@@ -165,6 +165,14 @@
   var linhasSvg = cinturao.querySelector(".cinturao__linhas");
   var camadaAstros = cinturao.querySelector(".cinturao__estrelas");
   var cartao = document.getElementById("cinturao-cartao");
+  var canvasFaiscas = document.createElement("canvas");
+  canvasFaiscas.className = "cinturao__faiscas";
+  canvasFaiscas.setAttribute("aria-hidden", "true");
+  cinturao.insertBefore(canvasFaiscas, camadaAstros);
+  var faiscas = window.OrionFaiscas ? window.OrionFaiscas.criar(canvasFaiscas) : null;
+  function posAstro(a) {
+    return { x: a.bx * escala + a.ox * a.z, y: a.by * escala + a.oy * a.z };
+  }
   var ASTROS = [
     { id: "meissa", nome: "Meissa", x: 300, y: 70, t: 5, z: 0.3 },
     { id: "betelgeuse", nome: "Betelgeuse", x: 140, y: 112, t: 10, z: 0.55 },
@@ -432,8 +440,17 @@
   }
   ASTROS.forEach(function (a) {
     if (!a.servico) return;
+    a.el.addEventListener("pointerenter", function () {
+      if (!faiscas || !cinturao.classList.contains("formado")) return;
+      var p = posAstro(a);
+      faiscas.explodir(p.x, p.y, { n: 12, vel: 70 });
+    });
     a.el.addEventListener("click", function (ev) {
       ev.stopPropagation();
+      if (faiscas) {
+        var p = posAstro(a);
+        faiscas.explodir(p.x, p.y, { n: 36, vel: 190 });
+      }
       if (estrelaAberta === a) fecharEstrela(true);
       else abrirEstrela(a);
     });
@@ -512,6 +529,10 @@
     var comp = 0;
     for (var i = 0; i < pontos.length; i++) {
       var aceso = yLuz >= pontos[i].y;
+      // marco que acaba de acender explode em faíscas
+      if (aceso && !marcos[i].classList.contains("aceso") && faiscasLT) {
+        faiscasLT.explodir(pontos[i].x + MARGEM_LT, pontos[i].y + MARGEM_LT, { n: 34, vel: 150 });
+      }
       marcos[i].classList.toggle("aceso", aceso || reduzido);
       if (i > 0 && yLuz > pontos[i - 1].y) {
         var fr = Math.min(1, (yLuz - pontos[i - 1].y) / (pontos[i].y - pontos[i - 1].y));
@@ -528,8 +549,23 @@
       var pa = ltBase.getPointAtLength(Math.max(0, comp - 6));
       var ang = (Math.atan2(pt.y - pa.y, pt.x - pa.x) * 180) / Math.PI;
       cometa.style.transform = "translate(" + pt.x.toFixed(1) + "px," + pt.y.toFixed(1) + "px) rotate(" + ang.toFixed(1) + "deg)";
+      // cauda de partículas: mais densa quanto mais rápido a pessoa rola
+      if (faiscasLT && ultimoCometa) {
+        var dist = Math.hypot(pt.x - ultimoCometa.x, pt.y - ultimoCometa.y);
+        if (dist > 0.5) faiscasLT.rastro(pt.x + MARGEM_LT, pt.y + MARGEM_LT, { n: Math.min(6, 1 + Math.round(dist / 6)), angulo: (ang * Math.PI) / 180 });
+      }
+      ultimoCometa = { x: pt.x, y: pt.y };
+    } else {
+      ultimoCometa = null;
     }
   }
+  var ultimoCometa = null;
+  var MARGEM_LT = 40; // o canvas das faíscas passa 40 px de cada lado da linha do tempo
+  var canvasLT = document.createElement("canvas");
+  canvasLT.className = "linha-tempo__faiscas";
+  canvasLT.setAttribute("aria-hidden", "true");
+  linhaTempo.insertBefore(canvasLT, linhaTempo.firstChild);
+  var faiscasLT = window.OrionFaiscas ? window.OrionFaiscas.criar(canvasLT) : null;
   var cometa = document.createElement("span");
   cometa.className = "linha-tempo__cometa";
   cometa.setAttribute("aria-hidden", "true");
@@ -614,17 +650,49 @@
     function (entradas, obs) {
       if (!entradas[0].isIntersecting) return;
       obs.disconnect();
-      cinturao.classList.add("ativo");
-      linhas.forEach(function (l) {
-        l.el.style.strokeDashoffset = "0";
-      });
-      // Depois que as linhas se desenham, a constelação gira para a posição real no céu de Manaus.
+      cinturao.classList.add("ativo", "formando");
+      var FORMACAO = reduzido || !faiscas ? 0 : 1400;
+      // 1) a poeira estelar converge e forma cada estrela (as maiores puxam mais poeira)
+      if (faiscas) {
+        faiscas.convergir(
+          ASTROS.map(function (a) {
+            var p = posAstro(a);
+            return { x: p.x, y: p.y, n: Math.round(a.t * 4.5) };
+          }),
+          {
+            dur: FORMACAO,
+            onChegar: function (i) {
+              var a = ASTROS[i];
+              a.el.classList.add("nasceu");
+              var p = posAstro(a);
+              faiscas.explodir(p.x, p.y, { n: Math.round(a.t * 0.9), vel: 60 });
+            },
+          }
+        );
+      } else {
+        ASTROS.forEach(function (a) {
+          a.el.classList.add("nasceu");
+        });
+      }
+      // 2) cometas traçam as linhas da constelação
+      setTimeout(function () {
+        cinturao.classList.add("formado");
+        cinturao.classList.remove("formando");
+        linhas.forEach(function (l, i) {
+          l.el.style.strokeDashoffset = "0";
+          if (faiscas) {
+            var pa = posAstro(l.a), pb = posAstro(l.b);
+            faiscas.cometa(pa.x, pa.y, pb.x, pb.y, { dur: 900, atraso: 300 + i * 110 });
+          }
+        });
+      }, FORMACAO);
+      // 3) depois das linhas, a constelação gira para a posição real no céu de Manaus
       setTimeout(function () {
         atualizarCeu(1800);
         setInterval(function () {
           atualizarCeu(1200);
         }, 60000);
-      }, reduzido ? 0 : 1500);
+      }, FORMACAO + (reduzido ? 0 : 1700));
     },
     { rootMargin: "0px 0px -20% 0px" }
   ).observe(cinturao);

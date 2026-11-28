@@ -31,6 +31,7 @@ O cinturão de Órion interativo (céu real de Manaus) agora abre a seção de S
 | `projeto.html/.js/.css` | Página "Saiba mais", montada a partir de `projetos.js`.               |
 | `projetos.js`      | **Dados do portfólio** (textos, fotos, vídeos, links).                   |
 | `espaco3d.js/.css` | Intro 3D: portal, hero no espaço, logo 3D, partículas e salto até "Sobre" (origem: `../viagem-3d`). |
+| `faiscas.js`       | Motor de partículas (canvas 2D): estrelas nascem da poeira, cometas traçam linhas, explosões e órbitas. Usado no cinturão, na trajetória e no "Monte a constelação". Só anima com partículas vivas. |
 | `estrelas.js`      | Céu animado compartilhado (canvas): estrelas em camadas que cintilam, reagem ao mouse e estrelas cadentes. Usado no hero e no "Monte a constelação". |
 | `ceu.js`           | Céu real de Manaus: calcula onde Órion está agora e gira o cinturão do hero para a inclinação real. |
 | `constelacao.js`   | "Monte a constelação do seu projeto": 4 perguntas, constelação animada e mensagem pronta para o WhatsApp. |
