@@ -7,7 +7,7 @@
   border: 1px solid var(--linha);
   border-radius: 20px;
   background: var(--painel);
-  overflow: hidden;
+  overflow: clip; /* "clip" (e não "hidden") para o céu poder ficar fixo no topo no celular */
 }
 .monte__perguntas {
   padding: clamp(24px, 4vw, 44px);
@@ -301,5 +301,46 @@
   .monte__svg {
     min-height: 0;
     aspect-ratio: 560 / 420;
+  }
+}
+
+/* Celular: a constelação fica fixa no topo enquanto a pessoa responde,
+   e as opções ficam compactas, em duas colunas. */
+@media (max-width: 680px) {
+  .monte__ceu {
+    position: sticky;
+    top: 66px;
+    z-index: 2;
+    box-shadow: 0 14px 24px -14px rgba(0, 0, 0, 0.8);
+  }
+  .monte__svg {
+    aspect-ratio: 16 / 10;
+  }
+  .monte__nome {
+    bottom: 8px;
+    font-size: 15px;
+  }
+  .monte__perguntas {
+    padding: 20px 18px 22px;
+  }
+  .monte__titulo {
+    font-size: 22px;
+  }
+  .monte__opcoes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin: 16px 0;
+  }
+  .monte__opcao {
+    padding: 10px 12px;
+    font-size: 14px;
+    gap: 8px;
+    border-radius: 12px;
+    text-align: left;
+    line-height: 1.25;
+  }
+  .monte__marca {
+    flex: none;
   }
 }

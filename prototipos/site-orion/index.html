@@ -7,11 +7,23 @@
     <meta name="description" content="Startup de Manaus que transforma ideias em soluções: sites, sistemas, identidade visual, suporte tecnológico e projetos de inovação." />
     <meta name="theme-color" content="#070b15" />
     <script>
-      try {
-        if (location.search.indexOf("repetir") > -1) sessionStorage.removeItem("orion-abertura-vista");
-        if (sessionStorage.getItem("orion-abertura-vista") !== "1")
-          document.documentElement.classList.add("orion-abertura-pendente", "com-abertura");
-      } catch (e) {}
+      (function () {
+        var raiz = document.documentElement;
+        try {
+          if (location.search.indexOf("repetir") > -1) sessionStorage.removeItem("orion-abertura-vista");
+          if (sessionStorage.getItem("orion-abertura-vista") !== "1") raiz.classList.add("orion-abertura-pendente", "com-abertura");
+        } catch (e) {}
+        // Modo 3D só com WebGL e sem "reduzir movimento"; senão, o site abre em 2D (plano B).
+        var webgl = false;
+        try {
+          var c = document.createElement("canvas");
+          webgl = !!(c.getContext("webgl2") || c.getContext("webgl"));
+        } catch (e) {}
+        var calmo = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+        var tresD = webgl && !calmo && location.search.indexOf("2d") < 0;
+        raiz.classList.add(tresD ? "com-3d" : "sem-3d");
+        if (tresD) raiz.classList.add("travado", "com-abertura", "hero-3d-visivel");
+      })();
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -23,6 +35,15 @@
     <link rel="stylesheet" href="../abertura-orion/abertura-orion.css" />
     <link rel="stylesheet" href="site.css" />
     <link rel="stylesheet" href="experiencias.css" />
+    <link rel="stylesheet" href="espaco3d.css" />
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+        }
+      }
+    </script>
   </head>
   <body>
     <a class="pular-conteudo" href="#conteudo">Pular para o conteúdo</a>
@@ -109,10 +130,24 @@
       </div>
     </header>
 
+    <!-- Cena 3D (modo 3D): fica atrás de toda a página -->
+    <canvas id="cena" class="so-3d" aria-hidden="true"></canvas>
+
     <main id="conteudo">
-      <div class="hero-fundo" aria-hidden="true"><canvas></canvas></div>
-      <!-- HERO: cinturão de Órion interativo -->
-      <section class="hero" id="inicio" data-contexto="inicio">
+      <span id="inicio" class="ancora-topo"></span>
+
+      <!-- MODO 3D: cada etapa dá "comprimento" à rolagem; o conteúdo aparece nas camadas fixas -->
+      <section class="etapa etapa--hero so-3d" data-contexto="inicio">
+        <h1 class="titulo-nitido" id="titulo-a">Transformamos ideias<br />em soluções que<br />fazem a diferença.</h1>
+      </section>
+      <div class="etapa etapa--salto so-3d" aria-hidden="true"></div>
+      <section class="etapa etapa--sobre so-3d" id="sobre" data-contexto="sobre">
+        <h2 class="titulo-nitido" id="titulo-b">Mais do que tecnologia.<br />Ideias que ganham vida.</h2>
+      </section>
+
+      <!-- MODO 2D (plano B: sem WebGL ou com "reduzir movimento") -->
+      <div class="hero-fundo so-2d" aria-hidden="true"><canvas></canvas></div>
+      <section class="hero so-2d" id="hero-2d" data-contexto="inicio">
         <div class="hero__texto">
           <p class="hero__local">De Manaus, para novas possibilidades</p>
           <h1 class="hero__titulo">
@@ -133,30 +168,10 @@
           </div>
         </div>
 
-        <div class="cinturao" id="cinturao">
-          <svg class="cinturao__svg" viewBox="0 0 600 640" aria-hidden="true">
-            <g class="cinturao__linhas"></g>
-          </svg>
-          <div class="cinturao__estrelas"></div>
-          <p class="cinturao__dica" id="cinturao-dica">Toque numa estrela do cinturão para ver o serviço</p>
-          <p class="cinturao__ceu" id="cinturao-ceu" title="Calculado para Manaus (3°07′ S, 60°01′ O) com o relógio do seu aparelho."></p>
-          <div class="cinturao__cartao" id="cinturao-cartao" role="dialog" aria-modal="false" aria-labelledby="cc-titulo" hidden>
-            <button class="cinturao__fechar" type="button" aria-label="Fechar">×</button>
-            <p class="cinturao__estrela" id="cc-estrela"></p>
-            <h2 id="cc-titulo"></h2>
-            <p id="cc-texto"></p>
-            <div class="cinturao__acoes">
-              <a class="botao botao--primario botao--pequeno" id="cc-whats" href="#" target="_blank" rel="noopener">
-                <svg class="ico" aria-hidden="true"><use href="#i-whatsapp" /></svg> Conversar
-              </a>
-              <a class="botao botao--fantasma botao--pequeno" id="cc-ver" href="#servicos">Ver detalhes</a>
-            </div>
-          </div>
-        </div>
       </section>
 
-      <!-- SOBRE -->
-      <section class="secao sobre" id="sobre" data-contexto="sobre">
+      <!-- SOBRE (2D) -->
+      <section class="secao sobre so-2d" id="sobre-2d" data-contexto="sobre">
         <div class="secao__cab">
           <h2 class="secao__titulo">Mais do que tecnologia. Ideias que ganham vida.</h2>
           <div class="secao__texto">
@@ -194,6 +209,28 @@
         <div class="secao__cab">
           <h2 class="secao__titulo">Seu desafio. Nossa próxima solução.</h2>
           <p class="secao__texto">Do primeiro esboço à solução em uso. Encontre o ponto de partida para sua ideia.</p>
+        </div>
+        <div class="servicos__ceu">
+        <div class="cinturao" id="cinturao">
+          <svg class="cinturao__svg" viewBox="0 0 600 640" aria-hidden="true">
+            <g class="cinturao__linhas"></g>
+          </svg>
+          <div class="cinturao__estrelas"></div>
+          <p class="cinturao__dica" id="cinturao-dica">Toque numa estrela do cinturão para ver o serviço</p>
+          <p class="cinturao__ceu" id="cinturao-ceu" title="Calculado para Manaus (3°07′ S, 60°01′ O) com o relógio do seu aparelho."></p>
+          <div class="cinturao__cartao" id="cinturao-cartao" role="dialog" aria-modal="false" aria-labelledby="cc-titulo" hidden>
+            <button class="cinturao__fechar" type="button" aria-label="Fechar">×</button>
+            <p class="cinturao__estrela" id="cc-estrela"></p>
+            <h2 id="cc-titulo"></h2>
+            <p id="cc-texto"></p>
+            <div class="cinturao__acoes">
+              <a class="botao botao--primario botao--pequeno" id="cc-whats" href="#" target="_blank" rel="noopener">
+                <svg class="ico" aria-hidden="true"><use href="#i-whatsapp" /></svg> Conversar
+              </a>
+              <a class="botao botao--fantasma botao--pequeno" id="cc-ver" href="#servicos">Ver detalhes</a>
+            </div>
+          </div>
+        </div>
         </div>
         <div class="servicos__grade">
           <article class="servico desenhavel" id="servico-sites" data-contexto="servico-sites">
@@ -436,6 +473,39 @@
       <p class="rodape__copy">© 2026 ORION</p>
     </footer>
 
+    <!-- Camadas do modo 3D, posicionadas pela cena -->
+    <div class="camada camada--hero so-3d" id="camada-hero" inert>
+      <p class="hero__resumo">
+        Da criação de experiências digitais ao desenvolvimento de tecnologias inovadoras, conectamos criatividade,
+        engenharia e inovação para transformar desafios em oportunidades.
+      </p>
+      <div class="hero__acoes">
+        <a class="botao botao--primario" data-whats="inicio" href="#" target="_blank" rel="noopener">
+          <svg class="ico" aria-hidden="true"><use href="#i-whatsapp" /></svg>
+          Conversar sobre minha ideia
+        </a>
+        <a class="botao botao--fantasma" href="#projetos">Ver o portfólio</a>
+      </div>
+    </div>
+    <div class="camada camada--sobre so-3d" id="camada-sobre" inert>
+      <div class="vidro">
+        <p>
+          A ORION nasceu da vontade de transformar conhecimento, criatividade e engenharia em soluções reais. Uma
+          iniciativa de desenvolvimento tecnológico que evoluiu para uma startup multidisciplinar.
+        </p>
+        <p>
+          Hoje, unimos soluções digitais, serviços tecnológicos e pesquisa aplicada para aproximar a inovação das
+          necessidades de pessoas, empresas e organizações.
+        </p>
+        <ul class="vidro__pilares">
+          <li><strong>Tecnologia</strong><span>Conhecimento aplicado a soluções práticas.</span></li>
+          <li><strong>Inovação</strong><span>Novos caminhos para desafios reais.</span></li>
+          <li><strong>Impacto</strong><span>Valor para pessoas, negócios e sociedade.</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="dica-rolar so-3d" id="dica-rolar" aria-hidden="true"><span>Role para viajar</span><i></i></div>
+
     <!-- WhatsApp contextual: o texto muda conforme a seção em que a pessoa está. -->
     <a class="whats-flutuante" id="whats-flutuante" href="#" target="_blank" rel="noopener">
       <svg class="ico" aria-hidden="true"><use href="#i-whatsapp" /></svg>
@@ -448,5 +518,9 @@
     <script src="site.js"></script>
     <script src="midia.js"></script>
     <script src="constelacao.js"></script>
+    <script type="module">
+      // A cena 3D (e a biblioteca Three.js) só é baixada no modo 3D.
+      if (document.documentElement.classList.contains("com-3d")) import("./espaco3d.js");
+    </script>
   </body>
 </html>

@@ -2,6 +2,16 @@
 (function () {
   "use strict";
 
+  var modo3D = document.documentElement.classList.contains("com-3d");
+  if (!modo3D) {
+    var sobre3D = document.getElementById("sobre");
+    var sobre2D = document.getElementById("sobre-2d");
+    if (sobre3D && sobre2D) {
+      sobre3D.id = "sobre-3d";
+      sobre2D.id = "sobre";
+    }
+  }
+
   var reduzido = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var temMouse = window.matchMedia("(pointer: fine)").matches;
   var raiz = document.documentElement;
@@ -42,7 +52,8 @@
     if (nome === contextoAtual && !forcar) return;
     contextoAtual = nome;
     // Some no contato (o formulário já faz isso) e enquanto os botões do hero estão na tela.
-    var escondido = nome === "contato" || !nome || heroAcoesVisiveis;
+    // também some no "Monte a constelação": a seção já termina com o envio pelo WhatsApp
+    var escondido = nome === "contato" || nome === "monte" || !nome || heroAcoesVisiveis;
     flutuante.classList.toggle("escondido", escondido);
     flutuante.setAttribute("aria-hidden", escondido ? "true" : "false");
     flutuante.tabIndex = escondido ? -1 : 0;
@@ -80,10 +91,17 @@
   zonas.forEach(function (z) {
     obsContexto.observe(z);
   });
-  new IntersectionObserver(function (entradas) {
-    heroAcoesVisiveis = entradas[0].isIntersecting;
-    definirContexto(contextoAtual, true);
-  }).observe(document.querySelector(".hero__acoes"));
+  if (modo3D) {
+    window.addEventListener("orion-hero", function (ev) {
+      heroAcoesVisiveis = !!ev.detail;
+      definirContexto(contextoAtual, true);
+    });
+  } else {
+    new IntersectionObserver(function (entradas) {
+      heroAcoesVisiveis = entradas[0].isIntersecting;
+      definirContexto(contextoAtual, true);
+    }).observe(document.querySelector("#hero-2d .hero__acoes"));
+  }
 
   // ---------- Cabeçalho e menu ----------
   var topo = document.getElementById("topo");
@@ -288,7 +306,7 @@
 
   // Céu real de Manaus: gira o cinturão até a inclinação de agora e conta onde Órion está.
   var textoCeu = document.getElementById("cinturao-ceu");
-  var heroSecao = document.getElementById("inicio");
+  var heroSecao = document.getElementById("cinturao");
   function girarPara(alvoGiro, duracao) {
     var inicio = giro;
     var delta = ((alvoGiro - inicio + 540) % 360) - 180; // caminho mais curto
@@ -585,32 +603,45 @@
   // Céu animado atrás do hero (camadas, cintilar, estrelas cadentes)
   var fundoHero = document.querySelector(".hero-fundo");
   if (fundoHero && window.OrionEstrelas) {
-    var heroEl = document.getElementById("inicio");
+    var heroEl = document.getElementById("hero-2d");
     new ResizeObserver(function () {
       fundoHero.style.height = heroEl.offsetHeight + 120 + "px";
     }).observe(heroEl);
     window.OrionEstrelas.ceu(fundoHero.querySelector("canvas"), { densidade: 1, cadentes: true, paralaxe: 16 });
   }
 
-  function revelarSite() {
-    raiz.classList.remove("com-abertura");
-    requestAnimationFrame(function () {
-      document.body.classList.add("hero-pronto");
+  new IntersectionObserver(
+    function (entradas, obs) {
+      if (!entradas[0].isIntersecting) return;
+      obs.disconnect();
+      cinturao.classList.add("ativo");
       linhas.forEach(function (l) {
         l.el.style.strokeDashoffset = "0";
       });
-      setTimeout(montarLinha, 1300);
-      // Depois que as linhas se desenham, a constelação gira para a posição real.
+      // Depois que as linhas se desenham, a constelação gira para a posição real no céu de Manaus.
       setTimeout(function () {
         atualizarCeu(1800);
         setInterval(function () {
           atualizarCeu(1200);
         }, 60000);
       }, reduzido ? 0 : 1500);
+    },
+    { rootMargin: "0px 0px -20% 0px" }
+  ).observe(cinturao);
+
+  function revelarSite() {
+    raiz.classList.remove("com-abertura");
+    requestAnimationFrame(function () {
+      document.body.classList.add("hero-pronto");
+      setTimeout(montarLinha, 1300);
     });
   }
+  // A cena 3D chama isto ao fim do mergulho.
+  window.OrionSite = { revelar: revelarSite };
   if (!reduzido) document.body.classList.add("anima-entrada");
-  if (window.AberturaOrion) {
+  if (modo3D) {
+    /* espaco3d.js inicia a abertura e o mergulho */
+  } else if (window.AberturaOrion) {
     window.AberturaOrion.iniciar({
       logo: "../abertura-orion/orion-logo.png",
       alvo: "#logo-topo",

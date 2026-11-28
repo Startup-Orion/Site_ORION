@@ -458,6 +458,7 @@ async function montarParticulas() {
 
   logo.position.copy(disposicao.logo);
   logo.scale.setScalar(disposicao.escalaLogo);
+  requestAnimationFrame(ajustarLogoRetrato);
   globo.position.copy(disposicao.globo);
   globo.scale.setScalar(disposicao.escalaGlobo);
 }
@@ -538,6 +539,7 @@ addEventListener("pointermove", (e) => {
 // ---------- Rolagem suave (inércia) ----------
 const etapaHero = document.querySelector(".etapa--hero");
 const etapaSalto = document.querySelector(".etapa--salto");
+const etapaFim = document.querySelector(".etapa--fim");
 let progAlvo = 0;
 let prog = 0;
 function lerRolagem() {
@@ -553,8 +555,10 @@ const tituloA = document.getElementById("titulo-a");
 const tituloB = document.getElementById("titulo-b");
 const dica = document.getElementById("dica-rolar");
 const v = new THREE.Vector3();
-function paraTela(x, y, z) {
-  v.set(x, y, z).project(camera);
+// câmera "de referência" parada na posição do hero, para medir o layout sem depender da animação
+const cameraLayout = camera.clone();
+function paraTela(x, y, z, cam = camera) {
+  v.set(x, y, z).project(cam);
   return { x: (v.x * 0.5 + 0.5) * innerWidth, y: (-v.y * 0.5 + 0.5) * innerHeight };
 }
 function mostrar(el, sim) {
@@ -588,6 +592,34 @@ function ancorarCamadas() {
   camadaSobre.style.setProperty("--x", Math.max(margem, baseB.x) + "px");
   camadaSobre.style.setProperty("--y", baseB.y + 20 + "px");
   camadaSobre.style.setProperty("--w", Math.min(innerWidth - 2 * margem, Math.max(320, ladoB.x - baseB.x) * 0.92) + "px");
+}
+
+// Celular: mede onde o texto e os botões do hero terminam (como serão vistos da posição do hero)
+// e coloca o logo inteiro no espaço livre abaixo deles.
+function ajustarLogoRetrato() {
+  if (!disposicao || !infoA || innerWidth / innerHeight >= 1) return;
+  cameraLayout.aspect = innerWidth / innerHeight;
+  cameraLayout.fov = 50;
+  cameraLayout.position.copy(H);
+  cameraLayout.lookAt(ALVO_H);
+  cameraLayout.updateProjectionMatrix();
+  cameraLayout.updateMatrixWorld();
+  const tA = disposicao.topoA;
+  const baseA = paraTela(tA.x, tA.y - infoA.altura, tA.z, cameraLayout);
+  const ladoA = paraTela(tA.x + infoA.largura, tA.y, tA.z, cameraLayout);
+  const margem = Math.max(20, Math.min(56, innerWidth * 0.05));
+  camadaHero.style.setProperty("--w", Math.min(innerWidth - 2 * margem, Math.max(320, ladoA.x - baseA.x)) + "px");
+  const fimTexto = baseA.y + 14 + camadaHero.offsetHeight + 18;
+  const fimTela = innerHeight - 20;
+  const livre = Math.max(80, fimTela - fimTexto);
+  const meiaAltura = Math.tan(25 * RAD) * 10;
+  const unidadesPorPx = (2 * meiaAltura) / innerHeight;
+  const escala = Math.min((disposicao.larguraA * 0.8) / LOGO_LARG, (livre * unidadesPorPx * 0.86) / LOGO_ALT);
+  const centroPx = fimTexto + livre / 2;
+  disposicao.logo.y = (0.5 - centroPx / innerHeight) * 2 * meiaAltura;
+  disposicao.escalaLogo = escala;
+  logo.position.copy(disposicao.logo);
+  logo.scale.setScalar(escala);
 }
 
 // ---------- Mergulho pelo portal ----------
@@ -629,6 +661,7 @@ function comecarMergulho() {
 }
 function terminarMergulho() {
   fase = "viagem";
+  ajustarLogoRetrato();
   raiz.classList.remove("travado");
   raiz.classList.add("pronto");
   lerRolagem();
@@ -697,12 +730,14 @@ function quadro() {
     const nitidoA = tituloFormado && prog < 0.012;
     const nitidoB = prog > 0.975;
     tituloA.classList.toggle("visivel", nitidoA);
-    tituloB.classList.toggle("visivel", nitidoB);
+    const noFim = scrollY + innerHeight * 0.55 > etapaFim.offsetTop;
+    tituloB.classList.toggle("visivel", nitidoB && !noFim);
     const alvoOp = nitidoA || nitidoB ? 0.0 : 1;
     uniformesParticulas.uOpacidade.value += (alvoOp - uniformesParticulas.uOpacidade.value) * 0.12;
 
     mostrar(camadaHero, prog < 0.08);
-    mostrar(camadaSobre, prog > 0.93);
+    mostrar(camadaSobre, prog > 0.93 && !noFim);
+    particulas.visible = !noFim;
     dica.classList.toggle("visivel", prog < 0.03);
     ancorarCamadas();
   }

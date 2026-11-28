@@ -11,6 +11,16 @@ python -m http.server 5178 --directory prototipos
 
 Acesse `http://localhost:5178/site-orion/?repetir` (`?repetir` mostra a abertura de novo).
 
+## Dois modos
+
+- **Modo 3D** (padrão, com WebGL): abertura → mergulho pelo anel do logo → hero no espaço (título em
+  partículas + logo ORION 3D) → salto até "Sobre". Depois disso o site segue em 2D, com o céu 3D
+  escurecido ao fundo. Código em `espaco3d.js` (Three.js, só baixado nesse modo) e `espaco3d.css`.
+- **Plano B (2D)**: sem WebGL ou com "reduzir movimento", abre o hero e o "Sobre" em 2D (abertura com
+  voo do logo até o cabeçalho). Para testar: `?2d` no endereço.
+
+O cinturão de Órion interativo (céu real de Manaus) agora abre a seção de Serviços, nos dois modos.
+
 ## Arquivos
 
 | Arquivo            | O que faz                                                                 |
@@ -20,6 +30,7 @@ Acesse `http://localhost:5178/site-orion/?repetir` (`?repetir` mostra a abertura
 | `midia.js`         | Vídeos em loop: tocam só na tela; respeitam "reduzir movimento" e economia de dados. |
 | `projeto.html/.js/.css` | Página "Saiba mais", montada a partir de `projetos.js`.               |
 | `projetos.js`      | **Dados do portfólio** (textos, fotos, vídeos, links).                   |
+| `espaco3d.js/.css` | Intro 3D: portal, hero no espaço, logo 3D, partículas e salto até "Sobre" (origem: `../viagem-3d`). |
 | `estrelas.js`      | Céu animado compartilhado (canvas): estrelas em camadas que cintilam, reagem ao mouse e estrelas cadentes. Usado no hero e no "Monte a constelação". |
 | `ceu.js`           | Céu real de Manaus: calcula onde Órion está agora e gira o cinturão do hero para a inclinação real. |
 | `constelacao.js`   | "Monte a constelação do seu projeto": 4 perguntas, constelação animada e mensagem pronta para o WhatsApp. |

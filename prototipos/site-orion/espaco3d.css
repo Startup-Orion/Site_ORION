@@ -1,0 +1,231 @@
+/* Intro 3D do site: modo 3D x plano B (2D) e camadas da viagem. */
+
+/* Cada modo mostra só o que é dele */
+html.com-3d .so-2d,
+html.sem-3d .so-3d {
+  display: none !important;
+}
+html.travado,
+html.travado body {
+  overflow: hidden;
+}
+.ancora-topo {
+  position: absolute;
+  top: 0;
+}
+
+/* Plano B (2D): hero só com texto, já que o cinturão foi para Serviços */
+html.sem-3d .hero {
+  grid-template-columns: minmax(0, 1fr);
+  min-height: 86svh;
+}
+html.sem-3d .hero__texto {
+  max-width: 760px;
+}
+
+/* ---------- Modo 3D ---------- */
+#cena {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 0;
+  touch-action: pan-y;
+  transition: opacity 400ms linear;
+}
+html.com-3d main {
+  position: relative;
+  z-index: 1;
+}
+html.com-3d main > .etapa {
+  pointer-events: none;
+}
+.etapa--hero {
+  height: 100vh;
+}
+.etapa--salto {
+  height: 170vh;
+}
+.etapa--sobre {
+  height: 130vh;
+}
+/* depois da viagem, a primeira seção 2D começa com um respiro */
+html.com-3d #servicos {
+  padding-top: clamp(60px, 10vw, 120px);
+}
+
+/* Enquanto o logo 3D do hero está na tela, o cabeçalho não repete o logo */
+html.com-3d #logo-topo,
+html.com-3d .marca__nome {
+  transition: opacity 500ms ease;
+}
+html.com-3d.hero-3d-visivel #logo-topo,
+html.com-3d.hero-3d-visivel .marca__nome {
+  opacity: 0;
+}
+
+/* Títulos reais: aparecem exatamente sobre as partículas quando o título está formado */
+.titulo-nitido {
+  position: fixed;
+  z-index: 4;
+  left: var(--x, 0);
+  top: var(--y, 0);
+  margin: 0;
+  font: 600 var(--fs, 60px) / 1.06 "Space Grotesk", system-ui, sans-serif;
+  letter-spacing: 0;
+  white-space: nowrap;
+  color: #f3f6fc;
+  opacity: 0;
+  transition: opacity 450ms ease;
+  pointer-events: none;
+}
+.titulo-nitido.visivel {
+  opacity: 1;
+}
+
+/* Camadas fixas, posicionadas pela cena 3D */
+.camada {
+  position: fixed;
+  z-index: 5;
+  left: var(--x, var(--margem));
+  top: var(--y, 60vh);
+  width: var(--w, min(520px, calc(100vw - 2 * var(--margem))));
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 500ms ease, transform 700ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  pointer-events: none;
+}
+.camada.visivel {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+.camada .hero__resumo {
+  margin: 0;
+  color: #c9d3e1;
+  text-shadow: 0 2px 20px rgba(7, 11, 21, 0.9);
+}
+.camada .hero__acoes {
+  margin-top: 26px;
+}
+.vidro {
+  padding: 26px 28px;
+  border-radius: 20px;
+  background: rgba(12, 19, 33, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(16px) saturate(1.3);
+  -webkit-backdrop-filter: blur(16px) saturate(1.3);
+  box-shadow: 0 30px 80px -30px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+.vidro p {
+  margin: 0;
+  color: #c9d3e1;
+}
+.vidro p + p {
+  margin-top: 12px;
+}
+.vidro__pilares {
+  list-style: none;
+  padding: 0;
+  margin: 22px 0 0;
+  display: grid;
+  gap: 14px;
+}
+.vidro__pilares li {
+  display: grid;
+  gap: 2px;
+  padding-left: 18px;
+  position: relative;
+}
+.vidro__pilares li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--azul);
+  box-shadow: 0 0 10px var(--azul);
+}
+.vidro__pilares strong {
+  font: 500 19px/1.2 var(--titulo);
+}
+.vidro__pilares span {
+  color: var(--suave);
+  font-size: 15px;
+}
+
+/* Dica de rolagem */
+.dica-rolar {
+  position: fixed;
+  z-index: 5;
+  left: 50%;
+  bottom: 28px;
+  translate: -50% 0;
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  color: var(--suave);
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  opacity: 0;
+  transition: opacity 600ms ease;
+  pointer-events: none;
+}
+.dica-rolar.visivel {
+  opacity: 1;
+}
+.dica-rolar i {
+  width: 1px;
+  height: 42px;
+  background: linear-gradient(transparent, var(--azul));
+  animation: descer 2s ease-in-out infinite;
+  transform-origin: top;
+}
+@keyframes descer {
+  0% { transform: scaleY(0); opacity: 1; }
+  60% { transform: scaleY(1); opacity: 1; }
+  100% { transform: scaleY(1); opacity: 0; }
+}
+@media (max-aspect-ratio: 1/1) {
+  .dica-rolar {
+    display: none;
+  }
+}
+@media (max-width: 680px) {
+  .camada .hero__resumo {
+    font-size: 16px;
+  }
+  .vidro {
+    padding: 18px 20px;
+  }
+  /* no celular o painel fica compacto: só o primeiro parágrafo e pilares menores */
+  .vidro p + p {
+    display: none;
+  }
+  .vidro p {
+    font-size: 15px;
+  }
+  .vidro__pilares {
+    margin-top: 16px;
+    gap: 10px;
+  }
+  .vidro__pilares strong {
+    font-size: 17px;
+  }
+  .vidro__pilares span {
+    font-size: 14px;
+  }
+}
+
+/* Cinturão de Órion como abertura de Serviços */
+.servicos__ceu {
+  display: grid;
+  justify-items: center;
+  margin: 0 auto clamp(80px, 10vw, 120px);
+}
+.servicos__ceu .cinturao {
+  width: min(100%, 560px);
+}
