@@ -20,10 +20,10 @@ Acesse `http://localhost:5178/site-orion/?repetir` (`?repetir` mostra a abertura
 | `midia.js`         | Vídeos em loop: tocam só na tela; respeitam "reduzir movimento" e economia de dados. |
 | `projeto.html/.js/.css` | Página "Saiba mais", montada a partir de `projetos.js`.               |
 | `projetos.js`      | **Dados do portfólio** (textos, fotos, vídeos, links).                   |
+| `estrelas.js`      | Céu animado compartilhado (canvas): estrelas em camadas que cintilam, reagem ao mouse e estrelas cadentes. Usado no hero e no "Monte a constelação". |
 | `ceu.js`           | Céu real de Manaus: calcula onde Órion está agora e gira o cinturão do hero para a inclinação real. |
-| `visao.js`         | Demo "Veja o que o ORION Lite vê": detecção de objetos com a câmera (TensorFlow.js, baixado só ao clicar) e descrição por voz. |
 | `constelacao.js`   | "Monte a constelação do seu projeto": 4 perguntas, constelação animada e mensagem pronta para o WhatsApp. |
-| `experiencias.css` | Estilos da demo e do "Monte a constelação".                               |
+| `experiencias.css` | Estilos do "Monte a constelação".                               |
 | `estande.html`     | Modo estande para TV em eventos: vídeos dos projetos em sequência + QR codes (tecla F = tela cheia). |
 | `img/qr/`          | QR codes do WhatsApp e do Instagram (gerados uma vez, sem serviço externo). |
 | `video/`           | `<slug>-loop.mp4/.webm` (cartão), `<slug>-completo.mp4` (com som), `<slug>-capa.jpg`. |

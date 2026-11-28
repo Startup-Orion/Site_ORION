@@ -21,7 +21,6 @@
     "projeto-orion": { rotulo: "Saber sobre o ORION Lite", texto: "Olá, ORION! Quero saber sobre o ORION Lite (tecnologia assistiva com visão computacional)." },
     "projeto-teko": { rotulo: "Saber sobre o Teko Ka’a", texto: "Olá, ORION! Quero saber sobre o projeto Teko Ka’a (estufa inteligente)." },
     "projeto-ada": { rotulo: "Falar sobre eventos", texto: "Olá, ORION! Vi a participação de vocês no Ada Conecta e quero conversar." },
-    experimente: { rotulo: "Quero uma solução com IA", texto: "Olá, ORION! Testei a demo de visão computacional no site e quero conversar sobre uma solução com IA." },
     monte: { rotulo: "Prefiro conversar direto", texto: "Olá, ORION! Vim pelo site e prefiro conversar direto sobre meu projeto." },
     trajetoria: { rotulo: "Propor uma parceria", texto: "Olá, ORION! Quero conversar sobre uma parceria." },
     equipe: { rotulo: "Falar com a equipe", texto: "Olá, ORION! Quero conversar com a equipe." },
@@ -186,7 +185,8 @@
 
   ASTROS.forEach(function (a, i) {
     var el = document.createElement(a.servico ? "button" : "span");
-    el.className = "astro";
+    el.className = "astro" + (a.t >= 9 ? " astro--raios" : "");
+    el.style.setProperty("--dur", (3.2 + (i % 4) * 0.9).toFixed(1) + "s");
     el.style.setProperty("--t", a.t + "px");
     el.style.setProperty("--atraso", (i * 0.37).toFixed(2) + "s");
     if (a.servico) {
@@ -223,7 +223,13 @@
     ln.style.strokeDashoffset = reduzido ? "0" : "1";
     ln.style.transition = "stroke-dashoffset 900ms cubic-bezier(0.2,0.7,0.2,1) " + (300 + i * 110) + "ms";
     linhasSvg.appendChild(ln);
-    return { el: ln, a: porId[l[0]], b: porId[l[1]] };
+    // Pulso: um brilho curto que viaja pela linha, como uma ideia passando pela conexão.
+    var pulso = document.createElementNS(NS, "line");
+    pulso.setAttribute("class", "pulso" + (l[2] ? " pulso--cinto" : ""));
+    pulso.setAttribute("pathLength", "1");
+    pulso.style.animationDelay = (2.4 + i * 0.55).toFixed(2) + "s";
+    linhasSvg.appendChild(pulso);
+    return { el: ln, pulso: pulso, a: porId[l[0]], b: porId[l[1]] };
   });
 
   var escala = 1;
@@ -274,6 +280,9 @@
       l.el.setAttribute("y1", (l.a.by + (l.a.oy * l.a.z) / escala).toFixed(1));
       l.el.setAttribute("x2", (l.b.bx + (l.b.ox * l.b.z) / escala).toFixed(1));
       l.el.setAttribute("y2", (l.b.by + (l.b.oy * l.b.z) / escala).toFixed(1));
+      ["x1", "y1", "x2", "y2"].forEach(function (k) {
+        l.pulso.setAttribute(k, l.el.getAttribute(k));
+      });
     });
   }
 
@@ -493,7 +502,20 @@
     }
     if (reduzido) comp = total;
     ltLuz.style.strokeDashoffset = (1 - comp / total).toFixed(4);
+    // Cometa na ponta da luz: aparece enquanto a linha está sendo desenhada pela rolagem.
+    var emCurso = comp > 2 && comp < total - 2 && !reduzido;
+    cometa.classList.toggle("visivel", emCurso);
+    if (emCurso) {
+      var pt = ltBase.getPointAtLength(comp);
+      var pa = ltBase.getPointAtLength(Math.max(0, comp - 6));
+      var ang = (Math.atan2(pt.y - pa.y, pt.x - pa.x) * 180) / Math.PI;
+      cometa.style.transform = "translate(" + pt.x.toFixed(1) + "px," + pt.y.toFixed(1) + "px) rotate(" + ang.toFixed(1) + "deg)";
+    }
   }
+  var cometa = document.createElement("span");
+  cometa.className = "linha-tempo__cometa";
+  cometa.setAttribute("aria-hidden", "true");
+  linhaTempo.appendChild(cometa);
   var rolando = false;
   window.addEventListener(
     "scroll",
@@ -560,6 +582,16 @@
   });
 
   // ---------- Abertura + entrada do hero ----------
+  // Céu animado atrás do hero (camadas, cintilar, estrelas cadentes)
+  var fundoHero = document.querySelector(".hero-fundo");
+  if (fundoHero && window.OrionEstrelas) {
+    var heroEl = document.getElementById("inicio");
+    new ResizeObserver(function () {
+      fundoHero.style.height = heroEl.offsetHeight + 120 + "px";
+    }).observe(heroEl);
+    window.OrionEstrelas.ceu(fundoHero.querySelector("canvas"), { densidade: 1, cadentes: true, paralaxe: 16 });
+  }
+
   function revelarSite() {
     raiz.classList.remove("com-abertura");
     requestAnimationFrame(function () {

@@ -78,22 +78,21 @@
     });
   }
 
-  // Céu de fundo discreto
-  (function () {
-    var s = 11;
-    function r() {
-      s = (s * 1103515245 + 12345) >>> 0;
-      return s / 4294967296;
-    }
-    for (var i = 0; i < 46; i++) {
-      var c = document.createElementNS(NS, "circle");
-      c.setAttribute("cx", (r() * 560).toFixed(1));
-      c.setAttribute("cy", (r() * 420).toFixed(1));
-      c.setAttribute("r", (0.5 + r() * 1.1).toFixed(2));
-      c.setAttribute("opacity", (0.12 + r() * 0.35).toFixed(2));
-      gFundo.appendChild(c);
-    }
-  })();
+  // Céu animado atrás da constelação + gradientes de brilho das estrelas
+  var canvasCeu = document.querySelector(".monte__ceu canvas");
+  if (canvasCeu && window.OrionEstrelas) {
+    window.OrionEstrelas.ceu(canvasCeu, { densidade: 0.9, cadentes: true, paralaxe: 10, semente: 9 });
+  }
+  var defs = document.createElementNS(NS, "defs");
+  defs.innerHTML =
+    '<radialGradient id="monte-brilho"><stop offset="0" stop-color="#ffffff" stop-opacity="0.9"/>' +
+    '<stop offset="0.18" stop-color="#9fdcff" stop-opacity="0.55"/><stop offset="0.5" stop-color="#37b5ff" stop-opacity="0.16"/>' +
+    '<stop offset="1" stop-color="#37b5ff" stop-opacity="0"/></radialGradient>' +
+    '<linearGradient id="monte-raio-h"><stop offset="0" stop-color="#e6f6ff" stop-opacity="0"/>' +
+    '<stop offset="0.5" stop-color="#e6f6ff"/><stop offset="1" stop-color="#e6f6ff" stop-opacity="0"/></linearGradient>' +
+    '<linearGradient id="monte-raio-v" x2="0" y2="1"><stop offset="0" stop-color="#e6f6ff" stop-opacity="0"/>' +
+    '<stop offset="0.5" stop-color="#e6f6ff"/><stop offset="1" stop-color="#e6f6ff" stop-opacity="0"/></linearGradient>';
+  svg.insertBefore(defs, svg.firstChild);
 
   // ---------- Constelação ----------
   function estrelasAtuais() {
@@ -120,11 +119,18 @@
       if (!g) {
         g = document.createElementNS(NS, "g");
         g.setAttribute("class", "monte__estrela" + (reduzido ? "" : " nova"));
-        g.innerHTML = '<circle class="halo" r="16"></circle><circle class="nucleo" r="4.5"></circle><text></text>';
+        g.innerHTML =
+          '<circle class="onda" r="8"></circle>' +
+          '<circle class="halo" r="24" fill="url(#monte-brilho)"></circle>' +
+          '<g class="raios"><rect x="-20" y="-0.7" width="40" height="1.4" fill="url(#monte-raio-h)"></rect>' +
+          '<rect x="-0.7" y="-20" width="1.4" height="40" fill="url(#monte-raio-v)"></rect></g>' +
+          '<circle class="nucleo" r="3.4"></circle><text></text>';
+        g.style.setProperty("--d", ((i * 0.73) % 2.6).toFixed(2) + "s");
         gEstrelas.appendChild(g);
         desenhadas[chave] = g;
       }
       g.setAttribute("transform", "translate(" + e.x + " " + e.y + ")");
+      g.style.setProperty("--ordem", i);
       var t = g.querySelector("text");
       t.textContent = e.rotulo;
       var esquerda = e.x > 430;
@@ -140,6 +146,20 @@
       var chave = "l:" + p[0].id + ">" + p[1].id;
       vivos[chave] = true;
       var l = desenhadas[chave];
+      var pl = desenhadas["p" + chave];
+      if (!pl) {
+        pl = document.createElementNS(NS, "line");
+        pl.setAttribute("pathLength", "1");
+        pl.setAttribute("class", "monte__pulso");
+        pl.style.animationDelay = (0.9 + (Object.keys(desenhadas).length % 7) * 0.45).toFixed(2) + "s";
+        gLinhas.appendChild(pl);
+        desenhadas["p" + chave] = pl;
+      }
+      vivos["p" + chave] = true;
+      pl.setAttribute("x1", p[0].x);
+      pl.setAttribute("y1", p[0].y);
+      pl.setAttribute("x2", p[1].x);
+      pl.setAttribute("y2", p[1].y);
       if (!l) {
         l = document.createElementNS(NS, "line");
         l.setAttribute("pathLength", "1");

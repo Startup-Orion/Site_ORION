@@ -1,121 +1,4 @@
-/* Experiências interativas: demo de visão computacional e "Monte a constelação do seu projeto". */
-
-/* ---------- Experimente (visão computacional) ---------- */
-.experimente {
-  display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-  gap: clamp(32px, 5vw, 72px);
-  align-items: center;
-}
-.experimente .secao__texto {
-  margin-top: 20px;
-}
-.experimente__acoes {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 32px;
-}
-.experimente__privacidade {
-  margin-top: 16px;
-  color: #6c7a90;
-  font-size: 14px;
-}
-.visao {
-  border: 1px solid var(--linha);
-  border-radius: 20px;
-  background: var(--painel);
-  overflow: hidden;
-  transition: border-color 400ms, box-shadow 400ms;
-}
-.visao.ativa {
-  border-color: #2c3d58;
-  box-shadow: 0 30px 80px -40px rgba(55, 181, 255, 0.35);
-}
-.visao__tela {
-  position: relative;
-  aspect-ratio: 4 / 3;
-  background:
-    linear-gradient(rgba(55, 181, 255, 0.05) 1px, transparent 1px) 0 0 / 32px 32px,
-    linear-gradient(90deg, rgba(55, 181, 255, 0.05) 1px, transparent 1px) 0 0 / 32px 32px,
-    #05080f;
-}
-.visao__video,
-.visao__desenho {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.visao__video {
-  opacity: 0;
-}
-.visao.camera .visao__video {
-  opacity: 1;
-}
-.visao.foto .visao__desenho {
-  object-fit: contain;
-}
-.visao__vazio {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-content: center;
-  justify-items: center;
-  gap: 12px;
-  color: #6c7a90;
-  font-size: 15px;
-}
-.visao__vazio .ico-grande {
-  width: 56px;
-  height: 56px;
-  opacity: 0.7;
-}
-.visao__vazio[hidden] {
-  display: none;
-}
-.visao__barra {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  min-height: 64px;
-  padding: 12px 16px 12px 20px;
-  border-top: 1px solid var(--linha);
-}
-.visao__leitura {
-  font-weight: 500;
-  color: var(--texto);
-}
-.visao__leitura:empty::before {
-  content: "Ligue a câmera ou use a foto do evento.";
-  color: #6c7a90;
-  font-weight: 400;
-}
-.visao__controles {
-  display: flex;
-  gap: 8px;
-  flex: none;
-}
-.visao__controles[hidden] {
-  display: none;
-}
-.visao__controles [aria-pressed="false"] {
-  color: var(--suave);
-}
-
-@media (max-width: 960px) {
-  .experimente {
-    grid-template-columns: 1fr;
-  }
-}
-@media (max-width: 680px) {
-  .visao__barra {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-}
+/* "Monte a constelação do seu projeto". */
 
 /* ---------- Monte a constelação do seu projeto ---------- */
 .monte__painel {
@@ -250,77 +133,133 @@
   position: relative;
   border-left: 1px solid var(--linha);
   background: radial-gradient(ellipse 80% 70% at 60% 40%, #0f1a2e, #070b15 75%);
+  overflow: hidden;
+}
+.monte__ceu::before {
+  /* névoa que se intensifica quando a constelação fica completa */
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 40% 34% at 55% 50%, rgba(55, 181, 255, 0.15), transparent 70%),
+    radial-gradient(ellipse 28% 36% at 30% 62%, rgba(110, 160, 255, 0.1), transparent 70%);
+  filter: blur(14px);
+  opacity: 0.55;
+  transition: opacity 1.2s ease;
+  animation: nevoa 12s ease-in-out infinite;
+}
+.monte__ceu:has(.completa)::before {
+  opacity: 1;
+}
+.monte__ceu canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
 }
 .monte__svg {
+  position: relative;
   display: block;
   width: 100%;
   height: 100%;
   min-height: 320px;
-}
-.monte__fundo circle {
-  fill: #fff;
+  overflow: visible;
 }
 .monte__linha {
   stroke: var(--azul);
-  stroke-width: 1.4;
-  stroke-opacity: 0.75;
+  stroke-width: 1.5;
+  stroke-opacity: 0.7;
   stroke-dasharray: 1 2;
   stroke-dashoffset: 0;
-  transition: stroke-dashoffset 700ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  filter: drop-shadow(0 0 3px rgba(55, 181, 255, 0.7));
+  transition: stroke-dashoffset 800ms cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 .monte__linha.fecho {
-  stroke-opacity: 0.45;
+  stroke-opacity: 0.5;
+}
+/* Pulso de luz que viaja pela linha (mesmo efeito do cinturão do hero) */
+.monte__pulso {
+  stroke: #e6f6ff;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-dasharray: 0.09 1.09;
+  stroke-dashoffset: 0.09;
+  opacity: 0;
+  filter: drop-shadow(0 0 4px #37b5ff);
+  animation: viajar 3.6s cubic-bezier(0.45, 0, 0.55, 1) infinite;
 }
 .monte__estrela .halo {
-  fill: var(--azul);
-  opacity: 0.18;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: cintilar-halo 3.4s ease-in-out infinite;
+  animation-delay: var(--d, 0s);
+}
+.monte__estrela .raios {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: girar-raios 4.2s ease-in-out infinite;
+  animation-delay: var(--d, 0s);
 }
 .monte__estrela .nucleo {
   fill: #fff;
 }
-.monte__estrela text {
-  fill: var(--suave);
-  font: 500 13px var(--corpo);
-}
-.monte__estrela.nova {
-  animation: estrela-nasce 650ms cubic-bezier(0.2, 0.7, 0.2, 1);
-}
-@keyframes estrela-nasce {
-  0% {
-    opacity: 0;
-  }
-  40% {
-    opacity: 1;
-  }
-}
-.monte__estrela.nova .halo {
-  animation: halo-nasce 900ms ease-out;
+.monte__estrela .onda {
+  fill: none;
+  stroke: #9fdcff;
+  stroke-width: 1.5;
+  opacity: 0;
   transform-box: fill-box;
   transform-origin: center;
 }
-@keyframes halo-nasce {
-  0% {
-    transform: scale(0.2);
-    opacity: 0.9;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 0.18;
-  }
+.monte__estrela text {
+  fill: var(--suave);
+  font: 500 13px var(--corpo);
+  transition: fill 400ms;
 }
-.monte__svg.completa .halo {
-  animation: pulsar 2.4s ease-in-out infinite;
+@keyframes cintilar-halo {
+  50% { transform: scale(0.78); opacity: 0.7; }
+}
+@keyframes girar-raios {
+  0%, 100% { transform: scale(0.55) rotate(0deg); opacity: 0.55; }
+  50% { transform: scale(1.1) rotate(12deg); opacity: 1; }
+}
+/* Nascimento: a estrela surge com uma onda de luz */
+.monte__estrela.nova {
+  animation: estrela-nasce 700ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.monte__estrela.nova .onda {
+  animation: onda 1100ms cubic-bezier(0.1, 0.6, 0.3, 1);
+}
+@keyframes estrela-nasce {
+  0% { opacity: 0; }
+  35% { opacity: 1; }
+}
+@keyframes onda {
+  0% { transform: scale(0.3); opacity: 0.95; stroke-width: 3; }
+  100% { transform: scale(5.5); opacity: 0; stroke-width: 0.4; }
+}
+/* Constelação completa: as estrelas acendem em sequência e o nome surge */
+.monte__svg.completa .monte__estrela .onda {
+  animation: onda 1300ms cubic-bezier(0.1, 0.6, 0.3, 1) both;
+  animation-delay: calc(var(--ordem, 0) * 140ms);
+}
+.monte__svg.completa .monte__estrela .nucleo {
+  animation: acender-nucleo 900ms ease-out both;
+  animation-delay: calc(var(--ordem, 0) * 140ms);
   transform-box: fill-box;
   transform-origin: center;
 }
 .monte__svg.completa .monte__estrela text {
   fill: var(--texto);
 }
-@keyframes pulsar {
-  50% {
-    transform: scale(1.35);
-    opacity: 0.32;
-  }
+.monte__svg.completa .monte__linha {
+  stroke-opacity: 0.95;
+}
+@keyframes acender-nucleo {
+  0% { transform: scale(1); }
+  40% { transform: scale(2.4); fill: #e6f6ff; }
+  100% { transform: scale(1); }
 }
 .monte__nome {
   position: absolute;
@@ -329,9 +268,22 @@
   bottom: 18px;
   text-align: center;
   font: 500 18px/1.2 var(--titulo);
-  letter-spacing: 0.02em;
+  letter-spacing: 0.04em;
   color: var(--texto);
   min-height: 1.2em;
+  text-shadow: 0 0 18px rgba(55, 181, 255, 0.6);
+}
+.monte__ceu:has(.completa) .monte__nome {
+  animation: nome-surge 1.4s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: 0.6s;
+}
+@keyframes nome-surge {
+  from { opacity: 0; letter-spacing: 0.4em; filter: blur(6px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .monte__pulso {
+    display: none;
+  }
 }
 
 @media (max-width: 960px) {
